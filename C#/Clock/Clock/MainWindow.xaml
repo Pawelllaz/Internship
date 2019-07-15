@@ -5,8 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clock"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="450" Closing="Window_Closing">
     <Grid>
-        
+
+        <Border
+            Width="350"
+            Height="350"
+            BorderBrush="Chocolate"
+            BorderThickness="6"
+            CornerRadius="175"
+    >
+            <Polyline
+            Points="0,50 0,175"
+            Stroke ="Black"
+            VerticalAlignment="Top"
+            
+            
+            HorizontalAlignment="Center"
+            StrokeThickness="2">
+                <Polyline.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="0" CenterX="0" CenterY="175" x:Name="line1"/>
+                    </TransformGroup>
+                </Polyline.RenderTransform>
+            </Polyline>
+        </Border>
+
     </Grid>
 </Window>
