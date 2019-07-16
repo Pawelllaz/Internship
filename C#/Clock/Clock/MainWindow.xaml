@@ -5,31 +5,117 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clock"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="450" Closing="Window_Closing">
-    <Grid>
-
-        <Border
+        Title="MainWindow" 
+        Height="450" 
+        Width="450" 
+        WindowStartupLocation="CenterOwner" 
+        Closing="Window_Closing">
+    <Viewbox>
+        <Grid>
+            <Border
             Width="350"
             Height="350"
             BorderBrush="Chocolate"
             BorderThickness="6"
-            CornerRadius="175"
-    >
-            <Polyline
-            Points="0,50 0,175"
-            Stroke ="Black"
-            VerticalAlignment="Top"
-            
-            
-            HorizontalAlignment="Center"
-            StrokeThickness="2">
-                <Polyline.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="0" CenterX="0" CenterY="175" x:Name="line1"/>
-                    </TransformGroup>
-                </Polyline.RenderTransform>
-            </Polyline>
-        </Border>
+            CornerRadius="175" Grid.RowSpan="2">
+                <Grid>
+                    <Polyline
+                    Points="0,30 0,175"
+                    Stroke ="Black"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    StrokeThickness="1">
+                        <Polyline.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="60" CenterX="0" CenterY="175" x:Name="secLine"/>
+                            </TransformGroup>
+                        </Polyline.RenderTransform>
+                    </Polyline>
+                    
+                    <Polyline x:Name="minuteLine"
+                    Points="0,50 1,175"
+                    Stroke ="Black"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    StrokeThickness="2">
+                        <!--<Polyline.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="20" CenterX="0" CenterY="175" x:Name="minLine"/>
+                            </TransformGroup>
+                        </Polyline.RenderTransform>-->
+                        <!--<Polyline.Triggers>
+                         
+                            <EventTrigger RoutedEvent="Polyline.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="minLine"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         From="45" To="65" AutoReverse="True"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Polyline.Triggers>-->
+                    </Polyline>
 
-    </Grid>
+                    <Polyline 
+                        Points="0,70 0,175"
+                        Stroke ="Black"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        StrokeThickness="3" >
+                        <Polyline.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="100" CenterX="0" CenterY="175" x:Name="hLine"/>
+                            </TransformGroup>
+                        </Polyline.RenderTransform>
+                    </Polyline>
+
+                    <Polyline 
+                        Points="350,175 330,175"
+                        Stroke ="Chocolate"
+                        VerticalAlignment="Top"
+                        StrokeLineJoin="Round"
+                        HorizontalAlignment="Center"
+                        StrokeThickness="3" >
+             
+                    </Polyline>
+
+                    <Polyline 
+                        Points="-155,175 -170,175"
+                        Stroke ="Chocolate"
+                        VerticalAlignment="Top"
+                        StrokeLineJoin="Round"
+                        HorizontalAlignment="Center"
+                        StrokeThickness="3" >
+
+                    </Polyline>
+
+                    <Polyline 
+                        Points="0,0 0,15"
+                        Stroke ="Chocolate"
+                        VerticalAlignment="Top"
+                        StrokeLineJoin="Round"
+                        HorizontalAlignment="Center"
+                        StrokeThickness="3" >
+
+                    </Polyline>
+
+                    <Polyline 
+                        Points="0,325 0,350"
+                        Stroke ="Chocolate"
+                        VerticalAlignment="Top"
+                        StrokeLineJoin="Round"
+                        HorizontalAlignment="Center"
+                        StrokeThickness="3" >
+
+                    </Polyline>
+
+                </Grid>
+            </Border>
+
+            
+
+        </Grid>
+
+    </Viewbox>
 </Window>
