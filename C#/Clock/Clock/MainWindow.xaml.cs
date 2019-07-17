@@ -28,9 +28,13 @@ namespace Clock
     public partial class MainWindow : Window//, INotifyPropertyChanged
     {
         private bool flag = true;
-        private double currentMin = 0;
+        public double currentMin = 0;
         private double currentH = 0;
-        
+
+        public double MinuteAngle { get; set; } = 50;
+        public double SecondAngle { get; set; }
+        public double HAngle { get; set; }
+
         /*private string _txt;
         public string Txt
         {
@@ -45,70 +49,112 @@ namespace Clock
         public MainWindow()
         {
             InitializeComponent();
+            SetMinAngle();
+            SetHAngle();
+            SetSecAngle();
             DataContext = this;
 
-            Thread thread = new Thread(new ThreadStart(worker));
+            Thread thread = new Thread(new ThreadStart(Worker));
             thread.Start();
 
         }
 
-        private double setSecAngle()
+        private void SetSecAngle()
         {
-            double angle = 0;
-            angle = DateTime.Now.Second*6;
-            angle += (double)DateTime.Now.Millisecond/175;
-            return angle;
+            SecondAngle = DateTime.Now.Second*6;
+            SecondAngle += (double)DateTime.Now.Millisecond/175;
         }
 
-        private void worker()
+        private void SetHAngle()
+        {
+            currentH = DateTime.Now.Hour;
+            hLine.Angle = currentH * 30;
+        }
+
+        private void SetMinAngle()
+        {
+            currentMin = DateTime.Now.Minute;
+            MinuteAngle = currentMin * 6;
+        }
+
+        private void Worker()
         {
             Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
             {
-                UpdateClock();
+                SetMinAngle();
+                SetHAngle();
             });
 
             while (flag)
             {
-                Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate 
+                
+                Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
                 {
-                    secLine.Angle = setSecAngle();
+                    SetSecAngle();
+                    secLine.Angle = SecondAngle;
 
                     if (DateTime.Now.Minute != currentMin)
                     {
-                        UpdateClock();
+                        SetMinAngle();
+                        //var s1 = FindResource("mojaAnimacja") as Storyboard;
+
+                        //foreach (var child in s1.Children)
+                        //{
+                        //    Storyboard.SetTargetName(child, "minLine");
+                        //}
+                        //s1.Begin(this);
+
+                        var resource = myWindow.Resources["animation"] as Storyboard;
+                        resource?.Begin();
+
                         if (currentH != DateTime.Now.Hour)
-                        {
-                            currentH = DateTime.Now.Hour;
-                            hLine.Angle = currentH * 30;
-                        }
+                            SetHAngle();
                     }
                     //Txt = $"{Txt}a";
                 });
-
+                
                 Thread.Sleep(30);
                 /*Dispatcher.Invoke(() =>
                 {
                     line1.Angle = DateTime.Now.Second;
                 });*/
-
+                
             }
         }
 
-        private void UpdateClock()
+        private void UpdateMinute()
         {
-            DoubleAnimation animation = new DoubleAnimation();
+            //DoubleAnimation animation = new DoubleAnimation();
 
-            animation.From = currentMin * 6;
-            currentMin = DateTime.Now.Minute;
-            animation.To = currentMin * 6 + 6;
-            //animation.AutoReverse = true;
-            animation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
-            //animation.AccelerationRatio = 0.3;
-            RotateTransform rotateTransform = new RotateTransform();
-            rotateTransform.CenterX = 0;
-            rotateTransform.CenterY = 175;
-            minuteLine.RenderTransform = rotateTransform;
-            rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
+            //animation.From = currentMin * 6;
+            //currentMin = DateTime.Now.Minute;
+            //animation.To = currentMin * 6 + 6;
+            ////animation.AutoReverse = true;
+            //animation.Duration = new Duration(TimeSpan.FromSeconds(0.5));
+            ////animation.AccelerationRatio = 0.3;
+            //RotateTransform rotateTransform = new RotateTransform();
+            //rotateTransform.CenterX = 0;
+            //rotateTransform.CenterY = 175;
+            //minuteLine.RenderTransform = rotateTransform;
+            //rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
+
+            //DoubleAnimation animation2 = new DoubleAnimation();
+            //animation2.BeginTime = new TimeSpan(0, 0, 0, 0, 500);
+            //animation2.By = 50;
+            //animation2.AutoReverse = true;
+            //rotateTransform = new RotateTransform();
+            //rotateTransform.CenterX = 0;
+            //rotateTransform.CenterY = 175;
+            //minuteLine.RenderTransform = rotateTransform;
+            //rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation2);
+
+            //animation.Completed += (s, e) =>
+            //{
+            //    animation.From = currentMin * 6 + 6;
+            //    animation.To = currentMin * 6;
+            //    animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
+            //    rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
+            //};
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -116,11 +162,19 @@ namespace Clock
             flag = false;
         }
 
-       /* public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        private void Border_MouseMove(object sender, MouseEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }*/
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        /* public event PropertyChangedEventHandler PropertyChanged;
+
+         protected virtual void OnPropertyChanged(string propertyName)
+         {
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+         }*/
     }
 }

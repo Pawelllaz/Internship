@@ -1,0 +1,14 @@
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\bin\Release\Clock.exe.config
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\bin\Release\Clock.exe
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\bin\Release\Clock.pdb
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\MainWindow.g.cs
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\App.g.cs
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock_MarkupCompile.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock_MarkupCompile.lref
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\MainWindow.baml
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock.g.resources
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock.Properties.Resources.resources
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock.csproj.GenerateResource.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock.csproj.CoreCompileInputs.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock.exe
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Release\Clock.pdb
