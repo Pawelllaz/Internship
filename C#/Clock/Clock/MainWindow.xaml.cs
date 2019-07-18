@@ -68,7 +68,7 @@ namespace Clock
         private void SetHAngle()
         {
             currentH = DateTime.Now.Hour;
-            hLine.Angle = currentH * 30;
+            HAngle = currentH * 30;
         }
 
         private void SetMinAngle()
@@ -93,6 +93,17 @@ namespace Clock
                     SetSecAngle();
                     secLine.Angle = SecondAngle;
 
+                    if(DateTime.Now.Second%10 == 0)
+                    {
+                        var resourceBigSprocket = myWindow.Resources["biSprocketAnimation"] as Storyboard;
+                        resourceBigSprocket?.Begin();
+                    }
+                    if(DateTime.Now.Second%15 == 0)
+                    {
+                        var resourceRightSprocket = myWindow.Resources["rightSprocketAnimation"] as Storyboard;
+                        resourceRightSprocket?.Begin();
+                    }
+
                     if (DateTime.Now.Minute != currentMin)
                     {
                         SetMinAngle();
@@ -104,11 +115,16 @@ namespace Clock
                         //}
                         //s1.Begin(this);
 
-                        var resource = myWindow.Resources["animation"] as Storyboard;
-                        resource?.Begin();
+                        var resourceMinute = myWindow.Resources["minuteLineAnimation"] as Storyboard;
+                        resourceMinute?.Begin();
 
-                        if (currentH != DateTime.Now.Hour)
-                            SetHAngle();
+                        
+                    }
+                    if (currentH != DateTime.Now.Hour)
+                    {
+                        SetHAngle();
+                        var resourceH = myWindow.Resources["hLineAnimation"] as Storyboard;
+                        resourceH?.Begin();
                     }
                     //Txt = $"{Txt}a";
                 });

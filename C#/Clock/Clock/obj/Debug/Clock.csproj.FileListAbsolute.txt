@@ -1,7 +1,6 @@
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\bin\Debug\Clock.exe.config
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\bin\Debug\Clock.exe
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\bin\Debug\Clock.pdb
-C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock.csprojAssemblyReference.cache
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\MainWindow.g.cs
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\App.g.cs
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock_MarkupCompile.cache
@@ -13,3 +12,4 @@ C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock.csproj.Gener
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock.csproj.CoreCompileInputs.cache
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock.exe
 C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock.pdb
+C:\Users\Praktyka\Desktop\Internship\C#\Clock\Clock\obj\Debug\Clock.csprojAssemblyReference.cache

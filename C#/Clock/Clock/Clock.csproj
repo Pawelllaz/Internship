@@ -97,5 +97,20 @@
   <ItemGroup>
     <Folder Include="System\Windows\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rust sprockets.png" />
+    <Resource Include="images\zebatka.png" />
+    <Resource Include="images\zebatka2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\sprocket1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\sprocket2.png" />
+    <Resource Include="images\sprocket3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\clock.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

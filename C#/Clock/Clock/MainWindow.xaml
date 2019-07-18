@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:Clock"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Height="450" 
-        Width="450" 
+        Height="400" 
+        Width="400" 
         x:Name="myWindow"
         WindowStartupLocation="CenterOwner" 
         Closing="Window_Closing"
         AllowsTransparency="True" WindowStyle="None" Background="Transparent" ResizeMode="CanResize">
     <Window.Resources>
-        <Storyboard x:Key="animation" >
+        <Storyboard x:Key="minuteLineAnimation" >
             <DoubleAnimation Storyboard.TargetName="minLine"
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:0.150"
@@ -25,22 +25,112 @@
                                                          Duration="0:0:0.100"
                                                          By="4" AutoReverse="True"/>
         </Storyboard>
+
+        <Storyboard x:Key="hLineAnimation" >
+            <DoubleAnimation Storyboard.TargetName="hLine"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:2.8"
+                                                         DecelerationRatio="0.5"
+                                                         To="{Binding HAngle}"/>
+        </Storyboard>
+        
+        <Storyboard x:Key="rightSprocketAnimation">
+            <DoubleAnimation  Storyboard.TargetName="rightSprocket"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:1"
+                                                         By="100"/>
+            <DoubleAnimation  Storyboard.TargetName="rightSprocket"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         BeginTime="0:0:1"
+                                                         Duration="0:0:0.5"
+                                                         AutoReverse="True"
+                                                         By="60"/>
+        </Storyboard>
+
+        <Storyboard x:Key="biSprocketAnimation">
+            <DoubleAnimation  Storyboard.TargetName="bigSprocket"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:9.5"
+                                                         AccelerationRatio="0.5"
+                                                         DecelerationRatio="0.5"
+                                                         By="350"/>
+        </Storyboard>
     </Window.Resources>
-    <Viewbox Width="300" Height="300">
+    <Viewbox Width="400" Height="400">
         <Grid>
             <Border
             Width="350"
             Height="350"
-            BorderBrush="#0052af"
-            Background="#487ee2"
             BorderThickness="6"
+            Background="Transparent"
             MouseMove="Border_MouseMove"    
             CornerRadius="175" Grid.RowSpan="2">
+                <!--<Border.Background>
+                    <ImageBrush
+                        ImageSource="images/clock.png" />
+                </Border.Background>-->
                 <Grid>
+
+                    <Image
+                        Width="200" 
+                        Height="200" 
+                        Source="images\sprocket2.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="1,1,30,40">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="bigSprocket"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                        <Image.Effect>
+                            <BlurEffect Radius="3"></BlurEffect>
+                        </Image.Effect>
+
+                    </Image>
+
+                 
+                    <Image
+                        Width="150" 
+                        Height="150" 
+                        Source="images\sprocket3.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="85,145,5,20">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="rightSprocket"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                        <Image.Effect>
+                            <BlurEffect Radius="2"></BlurEffect>
+                        </Image.Effect>
+
+                    </Image>
+
+                    <Image
+                        Width="480" 
+                        Height="470" 
+                        Source="images\clock.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="0,0,0,0">
+
+                    </Image>
+                    
                     <Image
                         Width="100" 
                         Height="100" 
-                        Source="C:\Users\Praktyka\Desktop\zebatka.png"
+                        Source="images\sprocket1.png"
                         RenderOptions.BitmapScalingMode="Fant"
                         Stretch="Fill"
                         HorizontalAlignment="Center"
@@ -53,7 +143,7 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                         <Image.Effect>
-                            <BlurEffect Radius="3"></BlurEffect>
+                            <BlurEffect Radius="2"></BlurEffect>
                         </Image.Effect>
                         <Image.Triggers>
                             <EventTrigger RoutedEvent="Image.Loaded">
@@ -69,19 +159,23 @@
                                 </BeginStoryboard>
                             </EventTrigger>
                         </Image.Triggers>
-                        
+
                     </Image>
 
-
                     <Polyline
-                    Points="0,30 0,123"
-                    Stroke ="Red"
+                    Points="0,20 0,123"
+                    Stroke ="White"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Center"
                     
-                    StrokeThickness="1">
+                    StrokeThickness="3">
                         <Polyline.Effect>
-                            <DropShadowEffect BlurRadius="10" ShadowDepth="0" Direction="{Binding ElementName=secLine, Path=Angle}"></DropShadowEffect>
+                            <DropShadowEffect 
+                                BlurRadius="10" 
+                                ShadowDepth="10" 
+                                Direction="{Binding ElementName=secLine, Path=Angle}">
+                                
+                            </DropShadowEffect>
                         </Polyline.Effect>
                         
                         <Polyline.RenderTransform>
@@ -90,21 +184,25 @@
                             </TransformGroup>
                         </Polyline.RenderTransform>
                     </Polyline>
-                    
+
                     <Polyline x:Name="minuteLine"
-                    Points="0,50 1,124"
-                    Stroke ="Gray"
+                    Points="0,40 1,124"
+                    Stroke ="Blue"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Center"
-                    StrokeThickness="2">
-                        <!--<Polyline.DataContext>
-                            <local:MainWindow></local:MainWindow>
-                        </Polyline.DataContext>-->
+                    StrokeThickness="4">
                         <Polyline.RenderTransform>
                             <TransformGroup>
                                 <RotateTransform Angle="0" CenterX="0" CenterY="175" x:Name="minLine"/>
                             </TransformGroup>
                         </Polyline.RenderTransform>
+                        <Polyline.Effect>
+                            <DropShadowEffect 
+                                BlurRadius="17" 
+                                ShadowDepth="10" 
+                                Direction="{Binding ElementName=minLine, Path=Angle}">
+                            </DropShadowEffect>
+                        </Polyline.Effect>
                         <Polyline.Triggers>
 
                             <EventTrigger RoutedEvent="Polyline.Loaded">
@@ -119,7 +217,7 @@
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:1"
                                                          From="0"
-                                                         To="{Binding HourAngle}" />
+                                                         To="{Binding HAngle}" />
                                         <!--<DoubleAnimation Storyboard.TargetName="secLine"
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:1"
@@ -133,21 +231,28 @@
                     </Polyline>
 
                     <Polyline 
-                        Points="0,70 0,123"
-                        Stroke ="Black"
+                        Points="0,55 0,123"
+                        Stroke ="Red"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Center"
-                        StrokeThickness="3" >
+                        StrokeThickness="5" >
                         <Polyline.RenderTransform>
                             <TransformGroup>
                                 <RotateTransform Angle="0" CenterX="0" CenterY="175" x:Name="hLine"/>
                             </TransformGroup>
                         </Polyline.RenderTransform>
+                        <Polyline.Effect>
+                            <DropShadowEffect 
+                                BlurRadius="17" 
+                                ShadowDepth="10" 
+                                Direction="{Binding ElementName=hLine, Path=Angle}">
+                            </DropShadowEffect>
+                        </Polyline.Effect>
                     </Polyline>
 
-                    <Polyline 
+                    <!--<Polyline 
                         Points="350,175 330,175"
-                        Stroke ="#0052af"
+                        Stroke ="#f0dab1"
                         VerticalAlignment="Top"
                         StrokeLineJoin="Round"
                         HorizontalAlignment="Center"
@@ -157,7 +262,7 @@
 
                     <Polyline 
                         Points="-155,175 -170,175"
-                        Stroke ="#0052af"
+                        Stroke ="#f0dab1"
                         VerticalAlignment="Top"
                         StrokeLineJoin="Round"
                         HorizontalAlignment="Center"
@@ -167,7 +272,7 @@
 
                     <Polyline 
                         Points="0,0 0,15"
-                        Stroke ="#0052af"
+                        Stroke ="#f0dab1"
                         VerticalAlignment="Top"
                         StrokeLineJoin="Round"
                         HorizontalAlignment="Center"
@@ -177,13 +282,13 @@
 
                     <Polyline 
                         Points="0,325 0,350"
-                        Stroke ="#0052af"
+                        Stroke ="#f0dab1"
                         VerticalAlignment="Top"
                         StrokeLineJoin="Round"
                         HorizontalAlignment="Center"
                         StrokeThickness="3" >
 
-                    </Polyline>
+                    </Polyline>-->
                 </Grid>
             </Border>
 
