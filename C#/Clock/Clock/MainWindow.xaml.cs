@@ -1,23 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Media.Animation;
-using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 
 namespace Clock
@@ -35,20 +19,10 @@ namespace Clock
         public double SecondAngle { get; set; }
         public double HAngle { get; set; }
 
-        /*private string _txt;
-        public string Txt
-        {
-            get => _txt;
-            set
-            {
-                _txt = value;
-                OnPropertyChanged(nameof(Txt));
-            }
-        }*/
-
         public MainWindow()
         {
             InitializeComponent();
+            
             SetMinAngle();
             SetHAngle();
             SetSecAngle();
@@ -56,13 +30,12 @@ namespace Clock
 
             Thread thread = new Thread(new ThreadStart(Worker));
             thread.Start();
-
         }
 
         private void SetSecAngle()
         {
             SecondAngle = DateTime.Now.Second*6;
-            SecondAngle += (double)DateTime.Now.Millisecond/175;
+            SecondAngle += (double)DateTime.Now.Millisecond/174;
         }
 
         private void SetHAngle()
@@ -91,7 +64,7 @@ namespace Clock
                 Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
                 {
                     SetSecAngle();
-                    secLine.Angle = SecondAngle;
+                    secPointer.Angle = SecondAngle;
 
                     if(DateTime.Now.Second%10 == 0)
                     {
@@ -107,70 +80,18 @@ namespace Clock
                     if (DateTime.Now.Minute != currentMin)
                     {
                         SetMinAngle();
-                        //var s1 = FindResource("mojaAnimacja") as Storyboard;
-
-                        //foreach (var child in s1.Children)
-                        //{
-                        //    Storyboard.SetTargetName(child, "minLine");
-                        //}
-                        //s1.Begin(this);
-
-                        var resourceMinute = myWindow.Resources["minuteLineAnimation"] as Storyboard;
+                        var resourceMinute = myWindow.Resources["minutePointerAnimation"] as Storyboard;
                         resourceMinute?.Begin();
-
-                        
                     }
                     if (currentH != DateTime.Now.Hour)
                     {
                         SetHAngle();
-                        var resourceH = myWindow.Resources["hLineAnimation"] as Storyboard;
+                        var resourceH = myWindow.Resources["hPointerAnimation"] as Storyboard;
                         resourceH?.Begin();
                     }
-                    //Txt = $"{Txt}a";
                 });
-                
-                Thread.Sleep(30);
-                /*Dispatcher.Invoke(() =>
-                {
-                    line1.Angle = DateTime.Now.Second;
-                });*/
-                
+                Thread.Sleep(150);
             }
-        }
-
-        private void UpdateMinute()
-        {
-            //DoubleAnimation animation = new DoubleAnimation();
-
-            //animation.From = currentMin * 6;
-            //currentMin = DateTime.Now.Minute;
-            //animation.To = currentMin * 6 + 6;
-            ////animation.AutoReverse = true;
-            //animation.Duration = new Duration(TimeSpan.FromSeconds(0.5));
-            ////animation.AccelerationRatio = 0.3;
-            //RotateTransform rotateTransform = new RotateTransform();
-            //rotateTransform.CenterX = 0;
-            //rotateTransform.CenterY = 175;
-            //minuteLine.RenderTransform = rotateTransform;
-            //rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
-
-            //DoubleAnimation animation2 = new DoubleAnimation();
-            //animation2.BeginTime = new TimeSpan(0, 0, 0, 0, 500);
-            //animation2.By = 50;
-            //animation2.AutoReverse = true;
-            //rotateTransform = new RotateTransform();
-            //rotateTransform.CenterX = 0;
-            //rotateTransform.CenterY = 175;
-            //minuteLine.RenderTransform = rotateTransform;
-            //rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation2);
-
-            //animation.Completed += (s, e) =>
-            //{
-            //    animation.From = currentMin * 6 + 6;
-            //    animation.To = currentMin * 6;
-            //    animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
-            //    rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
-            //};
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -186,11 +107,11 @@ namespace Clock
             }
         }
 
-        /* public event PropertyChangedEventHandler PropertyChanged;
-
-         protected virtual void OnPropertyChanged(string propertyName)
-         {
-             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-         }*/
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ClickCount == 2)
+                Application.Current.Shutdown();
+        }
+        
     }
 }

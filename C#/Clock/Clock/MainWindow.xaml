@@ -9,25 +9,25 @@
         Height="400" 
         Width="400" 
         x:Name="myWindow"
-        WindowStartupLocation="CenterOwner" 
+        WindowStartupLocation="CenterScreen" 
         Closing="Window_Closing"
         AllowsTransparency="True" WindowStyle="None" Background="Transparent" ResizeMode="CanResize">
     <Window.Resources>
-        <Storyboard x:Key="minuteLineAnimation" >
-            <DoubleAnimation Storyboard.TargetName="minLine"
+        <Storyboard x:Key="minutePointerAnimation" >
+            <DoubleAnimation Storyboard.TargetName="minPointer"
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:0.150"
                                                          By="6"/>
 
-            <DoubleAnimation Storyboard.TargetName="minLine"
+            <DoubleAnimation Storyboard.TargetName="minPointer"
                                                          Storyboard.TargetProperty="Angle"
                                                          BeginTime="0:0:0.150"
                                                          Duration="0:0:0.100"
-                                                         By="4" AutoReverse="True"/>
+                                                         By="5" AutoReverse="True"/>
         </Storyboard>
 
-        <Storyboard x:Key="hLineAnimation" >
-            <DoubleAnimation Storyboard.TargetName="hLine"
+        <Storyboard x:Key="hPointerAnimation" >
+            <DoubleAnimation Storyboard.TargetName="hPointer"
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:2.8"
                                                          DecelerationRatio="0.5"
@@ -42,9 +42,9 @@
             <DoubleAnimation  Storyboard.TargetName="rightSprocket"
                                                          Storyboard.TargetProperty="Angle"
                                                          BeginTime="0:0:1"
-                                                         Duration="0:0:0.5"
+                                                         Duration="0:0:1"
                                                          AutoReverse="True"
-                                                         By="60"/>
+                                                         By="120"/>
         </Storyboard>
 
         <Storyboard x:Key="biSprocketAnimation">
@@ -56,68 +56,32 @@
                                                          By="350"/>
         </Storyboard>
     </Window.Resources>
-    <Viewbox Width="400" Height="400">
+    <Viewbox Width="280" Height="280">
         <Grid>
+            <Grid.Effect>
+                <DropShadowEffect
+                                BlurRadius="20"
+                                ShadowDepth="10"
+                                Direction="340"
+                                >
+                </DropShadowEffect>
+            </Grid.Effect>
             <Border
-            Width="350"
-            Height="350"
-            BorderThickness="6"
-            Background="Transparent"
-            MouseMove="Border_MouseMove"    
-            CornerRadius="175" Grid.RowSpan="2">
-                <!--<Border.Background>
-                    <ImageBrush
-                        ImageSource="images/clock.png" />
-                </Border.Background>-->
+                
+                Width="350"
+                Height="350"
+                BorderThickness="6"
+                Background="Transparent"
+                MouseMove="Border_MouseMove"    
+                CornerRadius="175" Grid.RowSpan="2"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown">
+
                 <Grid>
 
                     <Image
-                        Width="200" 
-                        Height="200" 
-                        Source="images\sprocket2.png"
-                        RenderOptions.BitmapScalingMode="Fant"
-                        Stretch="Fill"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        RenderTransformOrigin=".5,.5"
-                        Margin="1,1,30,40">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform x:Name="bigSprocket"/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                        <Image.Effect>
-                            <BlurEffect Radius="3"></BlurEffect>
-                        </Image.Effect>
-
-                    </Image>
-
-                 
-                    <Image
-                        Width="150" 
-                        Height="150" 
-                        Source="images\sprocket3.png"
-                        RenderOptions.BitmapScalingMode="Fant"
-                        Stretch="Fill"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        RenderTransformOrigin=".5,.5"
-                        Margin="85,145,5,20">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform x:Name="rightSprocket"/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                        <Image.Effect>
-                            <BlurEffect Radius="2"></BlurEffect>
-                        </Image.Effect>
-
-                    </Image>
-
-                    <Image
-                        Width="480" 
-                        Height="470" 
-                        Source="images\clock.png"
+                        Width="290" 
+                        Height="290" 
+                        Source="images\clockCircle.png"
                         RenderOptions.BitmapScalingMode="Fant"
                         Stretch="Fill"
                         HorizontalAlignment="Center"
@@ -125,11 +89,119 @@
                         RenderTransformOrigin=".5,.5"
                         Margin="0,0,0,0">
 
+                        <!--<Image.Effect>
+                            <DropShadowEffect 
+                                BlurRadius="30" 
+                                ShadowDepth="12"
+                                Direction="355">
+
+                            </DropShadowEffect>
+                        </Image.Effect>-->
                     </Image>
-                    
+
+                    <Grid>
+                        <!--<Grid.Effect>
+                            <DropShadowEffect
+                                BlurRadius="40"
+                                ShadowDepth="12"
+                                Direction="355">
+                            </DropShadowEffect>
+                        </Grid.Effect>-->
+                        <Image
+                            Width="210" 
+                            Height="210" 
+                            Source="images\sprocket2.png"
+                            RenderOptions.BitmapScalingMode="Fant"
+                            Stretch="Fill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin=".5,.5"
+                            Margin="1,1,30,40">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform x:Name="bigSprocket"/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Grid>
+
+                    <Grid>
+                        <!--<Grid.Effect>
+                            <DropShadowEffect
+                                BlurRadius="20"
+                                ShadowDepth="12"
+                                Direction="355">
+                            </DropShadowEffect>
+                        </Grid.Effect>-->
+                        <Image
+                            Width="115" 
+                            Height="115" 
+                            Source="images\sprocket3.png"
+                            RenderOptions.BitmapScalingMode="Fant"
+                            Stretch="Fill"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin=".5,.5"
+                            Margin="85,145,5,20">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform x:Name="rightSprocket"/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                            <Image.Effect>
+                                <BlurEffect Radius="2"></BlurEffect>
+                            </Image.Effect>
+                        </Image>
+                    </Grid>
                     <Image
-                        Width="100" 
-                        Height="100" 
+                        Width="480" 
+                        Height="470" 
+                        Source="images\clock2.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="0,0,0,0">
+
+       
+                    </Image>
+
+
+                    <Image
+                        Width="30" 
+                        Height="200" 
+                        Source="images\secPointer.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="0,5,5,113">
+                        <Image.Effect>
+                            <DropShadowEffect 
+                                BlurRadius="10" 
+                                ShadowDepth="10" 
+                                Direction="{Binding ElementName=secPointer, Path=Angle}">
+
+                            </DropShadowEffect>
+                        </Image.Effect>
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform
+                                    Angle="0"
+                                    CenterX="0"
+                                    CenterY="57"
+                                    x:Name="secPointer">
+
+                                </RotateTransform>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <Image
+                        Width="120" 
+                        Height="120" 
                         Source="images\sprocket1.png"
                         RenderOptions.BitmapScalingMode="Fant"
                         Stretch="Fill"
@@ -159,33 +231,103 @@
                                 </BeginStoryboard>
                             </EventTrigger>
                         </Image.Triggers>
-
                     </Image>
 
-                    <Polyline
-                    Points="0,20 0,123"
-                    Stroke ="White"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Center"
-                    
-                    StrokeThickness="3">
-                        <Polyline.Effect>
+
+                    <Image
+                        Width="25" 
+                        Height="170" 
+                        Source="images\hPointer.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="1,5,5,73">
+                        <Image.Effect>
                             <DropShadowEffect 
                                 BlurRadius="10" 
                                 ShadowDepth="10" 
-                                Direction="{Binding ElementName=secLine, Path=Angle}">
-                                
-                            </DropShadowEffect>
-                        </Polyline.Effect>
-                        
-                        <Polyline.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform Angle="0" CenterX="0" CenterY="175" x:Name="secLine"/>
-                            </TransformGroup>
-                        </Polyline.RenderTransform>
-                    </Polyline>
+                                Direction="{Binding ElementName=hPointer, Path=Angle}">
 
-                    <Polyline x:Name="minuteLine"
+                            </DropShadowEffect>
+                        </Image.Effect>
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform
+                                    Angle="0"
+                                    CenterX="0"
+                                    CenterY="37"
+                                    x:Name="hPointer">
+
+                                </RotateTransform>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <Image
+                        Width="28" 
+                        Height="180" 
+                        Source="images\minPointer.png"
+                        RenderOptions.BitmapScalingMode="Fant"
+                        Stretch="Fill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin=".5,.5"
+                        Margin="1,1,5,113">
+                        <Image.Effect>
+                            <DropShadowEffect 
+                                BlurRadius="10" 
+                                ShadowDepth="10" 
+                                Direction="{Binding ElementName=minPointer, Path=Angle}">
+
+                            </DropShadowEffect>
+                        </Image.Effect>
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform
+                                    Angle="0"
+                                    CenterX="0"
+                                    CenterY="55"
+                                    x:Name="minPointer">
+
+                                </RotateTransform>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                        <Image.Triggers>
+
+                            <EventTrigger RoutedEvent="Polyline.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="startAnimation">
+                                        <DoubleAnimation Storyboard.TargetName="minPointer"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:1"
+                                                         From="0"
+                                                         To="{Binding MinuteAngle}" />
+                                        <DoubleAnimation Storyboard.TargetName="hPointer"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:1"
+                                                         From="0"
+                                                         To="{Binding HAngle}" />
+                                        <!--<DoubleAnimation Storyboard.TargetName="secLine"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:1"
+                                                         From="0"
+                                                         To="{Binding SecondAngle}" />-->
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Grid>
+            </Border>
+        </Grid>
+    </Viewbox>
+</Window>
+
+
+<!--<Polyline x:Name="minuteLine"
                     Points="0,40 1,124"
                     Stroke ="Blue"
                     VerticalAlignment="Top"
@@ -213,24 +355,27 @@
                                                          Duration="0:0:1"
                                                          From="0"
                                                          To="{Binding MinuteAngle}" />
-                                        <DoubleAnimation Storyboard.TargetName="hLine"
+                                        <DoubleAnimation Storyboard.TargetName="hPointer"
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:1"
                                                          From="0"
                                                          To="{Binding HAngle}" />
-                                        <!--<DoubleAnimation Storyboard.TargetName="secLine"
+                                        -->
+<!--<DoubleAnimation Storyboard.TargetName="secLine"
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:1"
                                                          From="0"
                                                          To="{Binding SecondAngle}" />-->
+<!--
 
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
                         </Polyline.Triggers>
-                    </Polyline>
+                    </Polyline>-->
 
-                    <Polyline 
+
+<!--<Polyline 
                         Points="0,55 0,123"
                         Stroke ="Red"
                         VerticalAlignment="Top"
@@ -248,53 +393,30 @@
                                 Direction="{Binding ElementName=hLine, Path=Angle}">
                             </DropShadowEffect>
                         </Polyline.Effect>
-                    </Polyline>
-
-                    <!--<Polyline 
-                        Points="350,175 330,175"
-                        Stroke ="#f0dab1"
-                        VerticalAlignment="Top"
-                        StrokeLineJoin="Round"
-                        HorizontalAlignment="Center"
-                        StrokeThickness="3" >
-             
-                    </Polyline>
-
-                    <Polyline 
-                        Points="-155,175 -170,175"
-                        Stroke ="#f0dab1"
-                        VerticalAlignment="Top"
-                        StrokeLineJoin="Round"
-                        HorizontalAlignment="Center"
-                        StrokeThickness="3" >
-
-                    </Polyline>
-
-                    <Polyline 
-                        Points="0,0 0,15"
-                        Stroke ="#f0dab1"
-                        VerticalAlignment="Top"
-                        StrokeLineJoin="Round"
-                        HorizontalAlignment="Center"
-                        StrokeThickness="3" >
-
-                    </Polyline>
-
-                    <Polyline 
-                        Points="0,325 0,350"
-                        Stroke ="#f0dab1"
-                        VerticalAlignment="Top"
-                        StrokeLineJoin="Round"
-                        HorizontalAlignment="Center"
-                        StrokeThickness="3" >
-
                     </Polyline>-->
-                </Grid>
-            </Border>
 
 
 
-        </Grid>
 
-    </Viewbox>
-</Window>
+<!--<Polyline
+                    Points="0,20 0,123"
+                    Stroke ="White"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    
+                    StrokeThickness="3">
+                        <Polyline.Effect>
+                            <DropShadowEffect 
+                                BlurRadius="10" 
+                                ShadowDepth="10" 
+                                Direction="{Binding ElementName=secLine, Path=Angle}">
+                                
+                            </DropShadowEffect>
+                        </Polyline.Effect>
+                        
+                        <Polyline.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="0" CenterX="0" CenterY="175" x:Name="secLine"/>
+                            </TransformGroup>
+                        </Polyline.RenderTransform>
+                    </Polyline>-->

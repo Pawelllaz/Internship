@@ -112,5 +112,20 @@
   <ItemGroup>
     <Resource Include="images\clock.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\secPointer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\hPointer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\minPointer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\clock2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\clockCircle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
