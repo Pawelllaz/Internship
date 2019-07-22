@@ -23,17 +23,18 @@
                                                          Storyboard.TargetProperty="Angle"
                                                          BeginTime="0:0:0.150"
                                                          Duration="0:0:0.100"
-                                                         By="5" AutoReverse="True"/>
+                                                         By="5" 
+                                                         AutoReverse="True"/>
         </Storyboard>
 
         <Storyboard x:Key="hPointerAnimation" >
             <DoubleAnimation Storyboard.TargetName="hPointer"
                                                          Storyboard.TargetProperty="Angle"
-                                                         Duration="0:0:2.8"
-                                                         DecelerationRatio="0.5"
-                                                         To="{Binding HAngle}"/>
+                                                         Duration="0:0:0.1"
+                                                         From="{Binding HfromAngle}"
+                                                         To="{Binding SecondAngle}"/>
         </Storyboard>
-        
+
         <Storyboard x:Key="rightSprocketAnimation">
             <DoubleAnimation  Storyboard.TargetName="rightSprocket"
                                                          Storyboard.TargetProperty="Angle"

@@ -15,7 +15,8 @@ namespace Clock
         public double currentMin = 0;
         private double currentH = 0;
 
-        public double MinuteAngle { get; set; } = 50;
+        public double HfromAngle { get; set; }
+        public double MinuteAngle { get; set; }
         public double SecondAngle { get; set; }
         public double HAngle { get; set; }
 
@@ -41,7 +42,10 @@ namespace Clock
         private void SetHAngle()
         {
             currentH = DateTime.Now.Hour;
+            if (DateTime.Now.Hour > 11)
+                currentH -= 12;
             HAngle = currentH * 30;
+            HAngle += DateTime.Now.Minute / 2;
         }
 
         private void SetMinAngle()
@@ -78,13 +82,15 @@ namespace Clock
                     }
 
                     if (DateTime.Now.Minute != currentMin)
-                    {
+                    { 
                         SetMinAngle();
                         var resourceMinute = myWindow.Resources["minutePointerAnimation"] as Storyboard;
                         resourceMinute?.Begin();
                     }
-                    if (currentH != DateTime.Now.Hour)
+                    if (DateTime.Now.Minute%10 == 0)
                     {
+                        //SetHAngle();
+                        HfromAngle = HAngle;
                         SetHAngle();
                         var resourceH = myWindow.Resources["hPointerAnimation"] as Storyboard;
                         resourceH?.Begin();
