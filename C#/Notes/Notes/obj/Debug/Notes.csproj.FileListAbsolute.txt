@@ -1,0 +1,15 @@
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\Notes.exe.config
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\Notes.exe
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\Notes.pdb
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csprojAssemblyReference.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\MainWindow.g.cs
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\App.g.cs
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes_MarkupCompile.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes_MarkupCompile.lref
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\MainWindow.baml
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.g.resources
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.Properties.Resources.resources
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csproj.GenerateResource.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csproj.CoreCompileInputs.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.exe
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.pdb

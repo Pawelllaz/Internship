@@ -1,0 +1,125 @@
+﻿<Window x:Class="Notes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notes"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="450" 
+        Width="800" 
+        MinWidth="460"
+        x:Name="myWindow">
+    <Window.Resources>
+        <Storyboard x:Key="TopPanelAnimation">
+            <DoubleAnimation Storyboard.TargetName="TopPanel"
+                             Storyboard.TargetProperty="Height"
+                             To="150"/>
+            <DoubleAnimation Storyboard.TargetName="textField"
+                             Storyboard.TargetProperty="Height"
+                             To="130"/>
+        </Storyboard>
+
+        <Storyboard x:Key="TopPanelAnimationReverse">
+            <DoubleAnimation Storyboard.TargetName="TopPanel"
+                             Storyboard.TargetProperty="Height"
+                             To="50"/>
+            <DoubleAnimation Storyboard.TargetName="textField"
+                             Storyboard.TargetProperty="Height"
+                             To="30"/>
+        </Storyboard>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            
+            Background="BlanchedAlmond">
+        </Grid>
+
+        <WrapPanel 
+            Background="BlanchedAlmond"
+            Grid.Column="1"
+            Width="700"
+            MinHeight="200"
+            MinWidth="400"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+        </WrapPanel>
+
+
+        <Grid 
+            Background="Aqua"
+            Grid.Column="0"
+            Grid.Row="1"
+            Height="150"
+            Margin="0,50,0,0">
+            <TextBlock>
+                Filtry
+            </TextBlock>
+        </Grid>
+        <Button 
+            Content="Right" 
+            Grid.Column="2"
+            Grid.Row="1"
+            Margin="0,50,0,0"/>
+        
+
+        <Grid
+            x:Name="TopPanel"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Height="50"
+            Grid.Column="1"
+            Grid.Row="0"
+            Grid.RowSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="1"
+                HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox 
+                        Height="30"
+                        Width="350"
+                        Margin="0,0,10,0"
+                        Text="{Binding NewNoteTxt}"
+                        PreviewMouseDown="txtName_PreviewMouseDown"
+                        Grid.Column="0" 
+                        HorizontalAlignment="Left"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap"
+                        x:Name="textField"/>
+                <Button 
+                        Content="add"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Bottom"
+                        Height="30"
+                        Width="50"
+                        Grid.Column="1"
+                        x:Name="addButton"
+                        Click="AddButtonClick" 
+                        />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

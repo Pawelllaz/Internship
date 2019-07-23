@@ -38,7 +38,7 @@ namespace Clock
             SecondAngle = DateTime.Now.Second*6;
             SecondAngle += (double)DateTime.Now.Millisecond/174;
         }
-
+        
         private void SetHAngle()
         {
             currentH = DateTime.Now.Hour;
@@ -59,7 +59,6 @@ namespace Clock
             Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
             {
                 SetMinAngle();
-                SetHAngle();
             });
 
             while (flag)
