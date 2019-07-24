@@ -6,33 +6,57 @@
         xmlns:local="clr-namespace:Notes"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Height="450" 
-        Width="800" 
-        MinWidth="460"
+        Height="550" 
+        Width="910" 
+        MinWidth="630"
         x:Name="myWindow">
     <Window.Resources>
         <Storyboard x:Key="TopPanelAnimation">
             <DoubleAnimation Storyboard.TargetName="TopPanel"
                              Storyboard.TargetProperty="Height"
-                             To="150"/>
+                             Duration="0:0:0.6"
+                             To="250"/>
             <DoubleAnimation Storyboard.TargetName="textField"
-                             Storyboard.TargetProperty="Height"
-                             To="130"/>
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.6"
+                             To="1.0"/>
+            <DoubleAnimation Storyboard.TargetName="addButton"
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.6"
+                             Duration="0:0:0.3"
+                             To="1.0"/>
+            <DoubleAnimation Storyboard.TargetName="clearButton"
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.6"
+                             Duration="0:0:0.3"
+                             To="1.0"/>
         </Storyboard>
 
         <Storyboard x:Key="TopPanelAnimationReverse">
             <DoubleAnimation Storyboard.TargetName="TopPanel"
                              Storyboard.TargetProperty="Height"
+                             BeginTime="0:0:0.18"
+                             Duration="0:0:0.6"
                              To="50"/>
+            <DoubleAnimation Storyboard.TargetName="addButton"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="clearButton"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             To="0"/>
             <DoubleAnimation Storyboard.TargetName="textField"
-                             Storyboard.TargetProperty="Height"
-                             To="30"/>
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.18"
+                             Duration="0:0:0.6"
+                             To="0"/>
         </Storyboard>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -46,13 +70,13 @@
             Grid.Row="0"
             Grid.RowSpan="3"
             
-            Background="BlanchedAlmond">
+            Background="#D9D9D9">
         </Grid>
 
         <WrapPanel 
-            Background="BlanchedAlmond"
+            x:Name="myWrapPanel"
+            Background="#D9D9D9"
             Grid.Column="1"
-            Width="700"
             MinHeight="200"
             MinWidth="400"
             Grid.Row="1"
@@ -75,51 +99,78 @@
             Grid.Column="2"
             Grid.Row="1"
             Margin="0,50,0,0"/>
-        
+
 
         <Grid
             x:Name="TopPanel"
-            VerticalAlignment="Top"
-            Background="Transparent"
             Height="50"
             Grid.Column="1"
             Grid.Row="0"
-            Grid.RowSpan="3">
+            Grid.RowSpan="2"
+            MinWidth="400"
+            VerticalAlignment="Top"
+            Background="Transparent">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Grid
+
+            <Grid 
+                x:Name="TitleGrid" 
                 Grid.Column="1"
-                HorizontalAlignment="Left">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox 
-                        Height="30"
-                        Width="350"
-                        Margin="0,0,10,0"
-                        Text="{Binding NewNoteTxt}"
-                        PreviewMouseDown="txtName_PreviewMouseDown"
-                        Grid.Column="0" 
-                        HorizontalAlignment="Left"
-                        AcceptsReturn="True"
-                        TextWrapping="Wrap"
-                        x:Name="textField"/>
-                <Button 
-                        Content="add"
-                        HorizontalAlignment="Center"
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Bottom"
-                        Height="30"
-                        Width="50"
-                        Grid.Column="1"
-                        x:Name="addButton"
-                        Click="AddButtonClick" 
-                        />
+                Height="Auto"
+                VerticalAlignment="Top">
+                <TextBox
+                    x:Name="titleField"
+                    Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
+                    Height="30"
+                    Margin="0,10,0,0"
+                    Text="{Binding NewNoteTitle}"
+                    PreviewMouseDown="TitleName_PreviewMouseDown"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"/>
+                <TextBox
+                    x:Name="textField"
+                     Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
+                    MinWidth="200"
+                    Height="170"
+                    Opacity="0"
+                    Margin="0,42,0,0"
+                    Text="{Binding NewNoteTxt}"
+                    PreviewMouseDown="TxtName_PreviewMouseDown"
+                    Grid.Column="1" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap"/>
             </Grid>
+            
+            <Button 
+                x:Name="addButton"
+                Click="AddButtonClick"
+                Height="30"
+                Width="50"
+                HorizontalAlignment="Right"
+                Margin="0,0,0,5"
+                IsEnabled="False"
+                VerticalAlignment="Bottom"
+                Grid.Column="1"
+                Content="Add"
+                Opacity="0"/>
+            <Button
+                x:Name="clearButton"
+                Click="ClearButtonClick"
+                Grid.Column="1"
+                Height="30"
+                Width="50"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,55,5"
+                IsEnabled="False"
+                Content="Clear"
+                Opacity="0"/>
         </Grid>
     </Grid>
 </Window>
