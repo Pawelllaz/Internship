@@ -9,6 +9,7 @@
         Height="550" 
         Width="910" 
         MinWidth="630"
+        WindowStartupLocation="CenterScreen" 
         x:Name="myWindow">
     <Window.Resources>
         <Storyboard x:Key="TopPanelAnimation">
@@ -73,7 +74,7 @@
             Background="#D9D9D9">
         </Grid>
 
-        <WrapPanel 
+        <Grid 
             x:Name="myWrapPanel"
             Background="#D9D9D9"
             Grid.Column="1"
@@ -81,7 +82,41 @@
             MinWidth="400"
             Grid.Row="1"
             Grid.RowSpan="2">
-        </WrapPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <!--<ItemsControl
+            x:Name="myWrapPanel"
+            Background="#D9D9D9"
+            Grid.Column="1"
+            MinHeight="200"
+            MinWidth="400"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate >
+                    <Grid Width="100" Height="100" Background="Yellow">
+                        <StackPanel>
+                            <TextBox>test</TextBox>
+                            <TextBox>test2</TextBox>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <Control></Control>
+            <Control></Control>
+        </ItemsControl>-->
+
 
 
         <Grid 
