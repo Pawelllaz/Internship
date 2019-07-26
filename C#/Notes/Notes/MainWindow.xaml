@@ -87,6 +87,39 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <ScrollViewer
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    VerticalScrollBarVisibility="Hidden"
+                
+                    Grid.Column="0">
+                <StackPanel
+                    x:Name="wrap0">
+               
+                </StackPanel>
+            </ScrollViewer>
+
+            <ScrollViewer
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    VerticalScrollBarVisibility="Hidden"
+                    Grid.Column="1">
+                <StackPanel
+                x:Name="wrap1">
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <ScrollViewer
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    VerticalScrollBarVisibility="Hidden"
+                
+                Grid.Column="2">
+                <StackPanel
+                x:Name="wrap2">
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <!--<ItemsControl

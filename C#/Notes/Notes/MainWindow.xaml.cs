@@ -153,12 +153,27 @@ namespace Notes
                 {
                     FilesPaths.Add(filePath);
                     // layout
+                    /*string textReaded = fileOperations.ReadTextFromFile(filePath);
+                    string title = Path.GetFileNameWithoutExtension(filePath);
+                    Grid newGrid = noteOperations.CreateNewNoteGrid(title, textReaded);
+                    Grid.SetColumn(newGrid, GridColumnControl());
+                    myWrapPanel.Children.Add(newGrid);*/
+
                     string textReaded = fileOperations.ReadTextFromFile(filePath);
                     string title = Path.GetFileNameWithoutExtension(filePath);
                     Grid newGrid = noteOperations.CreateNewNoteGrid(title, textReaded);
-                    Grid.SetColumn(newGrid, gridColumnIterator);
-                    GridColumnControl();
-                    myWrapPanel.Children.Add(newGrid);
+                    switch (GridColumnControl())
+                    {
+                        case 0:
+                            wrap0.Children.Add(newGrid);
+                            break;
+                        case 1:
+                            wrap1.Children.Add(newGrid);
+                            break;
+                        case 2:
+                            wrap2.Children.Add(newGrid);
+                            break;
+                    }
                 }
             }
         }
@@ -177,10 +192,11 @@ namespace Notes
         }
 
         // grid column controler
-        private void GridColumnControl()
+        private int GridColumnControl()
         {
             if (++gridColumnIterator == 3)
                 gridColumnIterator = 0;
+            return gridColumnIterator;
         }
     }
 }
