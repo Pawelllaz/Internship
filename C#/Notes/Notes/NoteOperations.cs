@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Controls.Primitives;
 
 namespace Notes
 {
@@ -20,21 +21,12 @@ namespace Notes
         public Grid CreateNewNoteGrid(string title, string textReaded)
         {
             Grid grid = new Grid();
-            //grid.Width = 300;
-            //grid.Height = 300;
-            //grid.Background = Brushes.Chocolate;
             grid.Margin = new Thickness(5);
-            
-            /*WrapPanel grid = new WrapPanel();
-            grid.Orientation = Orientation.Vertical;
-            grid.Width = 100;
-            */
+            grid.MouseRightButtonDown += MouseClicked;
+
             TextBlock titleBlock = new TextBlock();
-            //titleBlock.TextWrapping = TextWrapping.Wrap;
-            //titleBlock.Margin = new Thickness(10, 10, 10, 10);
             titleBlock.FontSize = 18;
             titleBlock.FontWeight = FontWeights.Medium;
-            //textBlock.Text = GetTitleAndText(title, textReaded);
             titleBlock.Text = title;
             titleBlock.Padding = new Thickness(10,5,5,5);
             titleBlock.Background = Brushes.Yellow;
@@ -42,20 +34,25 @@ namespace Notes
             TextBlock textBlock = new TextBlock();
             textBlock.TextWrapping = TextWrapping.Wrap;
             textBlock.Margin = new Thickness(15,35,10,10);
-            //textBlock.Text = GetTitleAndText(title, textReaded);
             textBlock.Text = textReaded;
             textBlock.Background = Brushes.Yellow;
+
+            Popup popup = new Popup();
+            popup.Name = "popup";
+            popup.AllowsTransparency = true;
+            popup.Placement = PlacementMode.Bottom;
+           // popup.PopupAnimation = PopupAnimation.Fade;
+            //popup.StaysOpen = true;
             
-           // Console.WriteLine(textBlock.Height);
             grid.Children.Add(titleBlock);
             grid.Children.Add(textBlock);
+            grid.Children.Add(popup);
             return grid;
         }
 
-        private string GetTitleAndText(string title, string text)
+        private void MouseClicked(object sender, MouseButtonEventArgs e)
         {
-            return title + "\n\n" + text;
+            
         }
-        
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Notes.Controls"
         xmlns:local="clr-namespace:Notes"
         mc:Ignorable="d"
         Title="MainWindow" 
@@ -10,6 +11,7 @@
         Width="910" 
         MinWidth="630"
         WindowStartupLocation="CenterScreen" 
+        LocationChanged="myWindow_LocationChanged"
         x:Name="myWindow">
     <Window.Resources>
         <Storyboard x:Key="TopPanelAnimation">
@@ -81,7 +83,8 @@
             MinHeight="200"
             MinWidth="400"
             Grid.Row="1"
-            Grid.RowSpan="2">
+            Grid.RowSpan="2"
+            HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -162,12 +165,17 @@
                 Filtry
             </TextBlock>
         </Grid>
-        <Button 
+        <Button  x:Name="rightButton" Click="rightButton_Click"
             Content="Right" 
             Grid.Column="2"
             Grid.Row="1"
             Margin="0,50,0,0"/>
 
+        <Popup x:Name="popup" PlacementTarget="{Binding ElementName=rightButton}"  Placement="Bottom" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" AllowsTransparency="True">
+            <Border BorderBrush="Aqua" Width="150" Height="100" Background="Beige" CornerRadius="20">
+                <Button x:Name="butt" Width="100" Height="40" Content="My button" />
+            </Border>
+        </Popup>
 
         <Grid
             x:Name="TopPanel"
@@ -239,6 +247,10 @@
                 IsEnabled="False"
                 Content="Clear"
                 Opacity="0"/>
+
+           
         </Grid>
+
+        <!--<controls:MyControl Grid.Row="1" Grid.Column="1" Width="100" Height="130" />-->
     </Grid>
 </Window>

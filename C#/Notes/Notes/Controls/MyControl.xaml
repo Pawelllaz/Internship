@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Notes.Controls.MyControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Notes.Controls"
+             xmlns:mainWindow="clr-namespace:Notes"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="250">
+    <ItemsControl Background="AliceBlue" ItemsSource="{Binding Path=Data}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Border CornerRadius="10"
+                            Padding="15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Padding="5"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       Text="--->"
+                                       FontSize="14"/>
+                            <TextBlock Grid.Column="1"
+                                       Margin="5 0 5 0"
+                                       VerticalAlignment="Center"
+                                       Text="oooooooooooooooo"
+                                       FontSize="14"/>
+                        </Grid>
+                            
+                    </Border>
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

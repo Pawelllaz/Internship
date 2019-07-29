@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Notes.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -17,6 +18,7 @@ namespace Notes
     {
         private int gridColumnIterator = 0;
         private List<string> FilesPaths = new List<string>();
+        private Dictionary<string, Note> Notes = new Dictionary<string, Note>();
         private string directoryPath = @"C:/notes";
         private string _newNoteTitle;
         public string NewNoteTitle
@@ -160,21 +162,26 @@ namespace Notes
                     myWrapPanel.Children.Add(newGrid);*/
 
                     string textReaded = fileOperations.ReadTextFromFile(filePath);
-                    string title = Path.GetFileNameWithoutExtension(filePath);
-                    Grid newGrid = noteOperations.CreateNewNoteGrid(title, textReaded);
-                    switch (GridColumnControl())
-                    {
-                        case 0:
-                            wrap0.Children.Add(newGrid);
-                            break;
-                        case 1:
-                            wrap1.Children.Add(newGrid);
-                            break;
-                        case 2:
-                            wrap2.Children.Add(newGrid);
-                            break;
-                    }
+                    Title = Path.GetFileNameWithoutExtension(filePath);
+                  //  Grid newGrid = noteOperations.CreateNewNoteGrid(title, textReaded);
+                  //  ChooseColumn(newGrid);
                 }
+            }
+        }
+
+        private void ChooseColumn(Grid grid)
+        {
+            switch (GridColumnControl())
+            {
+                case 0:
+                    wrap0.Children.Add(grid);
+                    break;
+                case 1:
+                    wrap1.Children.Add(grid);
+                    break;
+                case 2:
+                    wrap2.Children.Add(grid);
+                    break;
             }
         }
 
@@ -198,5 +205,21 @@ namespace Notes
                 gridColumnIterator = 0;
             return gridColumnIterator;
         }
+
+        private void rightButton_Click(object sender, RoutedEventArgs e)
+        {
+            //popup.IsOpen = !popup.IsOpen;
+            var note = new Note();
+            Notes.Add("note1", note);
+            myWrapPanel.Children.Add(note);
+        }
+
+        private void myWindow_LocationChanged(object sender, EventArgs e)
+        {
+            var offset = popup.HorizontalOffset;
+            popup.HorizontalOffset = offset + 1;
+            popup.HorizontalOffset = offset;
+        }
+        
     }
 }
