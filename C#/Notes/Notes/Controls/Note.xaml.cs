@@ -21,19 +21,33 @@ namespace Notes.Controls
     /// </summary>
     public partial class Note : UserControl, INotifyPropertyChanged
     {
-        private string _title;
-        public string Title
+        private string _noteTitle;
+        public string NoteTitle
         {
             get
             {
-                return _title;
+                return _noteTitle;
             }
             set
             {
-                _title = value;
-                OnPropertyChanged(nameof(Title));
+                _noteTitle = value;
+                OnPropertyChanged(nameof(NoteTitle));
             }
         }
+        private string _readedText;
+        public string ReadedText
+        {
+            get
+            {
+                return _readedText;
+            }
+            set
+            {
+                _readedText = value;
+                OnPropertyChanged(nameof(ReadedText));
+            }
+        }
+
         public Note()
         {
             InitializeComponent();
@@ -42,13 +56,35 @@ namespace Notes.Controls
 
         private void grid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            popup.IsOpen = !popup.IsOpen;
+            Focus();
+            popup.IsOpen = false;
+            popup.IsOpen = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        private void UserControl_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(removeButton.IsKeyboardFocused != true)
+                popup.IsOpen = false;
+            if (modifyButton.IsKeyboardFocused != true)
+                popup.IsOpen = false;
+        }
+
+        private void removeButtonClick(object sender, RoutedEventArgs e)
+        {
+            popup.IsOpen = false;
+        }
+
+        // nie wywoluje
+        private void modifyButtonClick(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("work");
+            popup.IsOpen = false;
         }
     }
 }

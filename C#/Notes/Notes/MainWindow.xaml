@@ -10,8 +10,8 @@
         Height="550" 
         Width="910" 
         MinWidth="630"
-        WindowStartupLocation="CenterScreen" 
         LocationChanged="myWindow_LocationChanged"
+        WindowStartupLocation="CenterScreen" 
         x:Name="myWindow">
     <Window.Resources>
         <Storyboard x:Key="TopPanelAnimation">
@@ -56,7 +56,8 @@
                              To="0"/>
         </Storyboard>
     </Window.Resources>
-    <Grid>
+    <Grid
+        Background="#D9D9D9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="7*"/>
@@ -67,17 +68,17 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid
+        <!--<Grid
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Grid.Row="0"
             Grid.RowSpan="3"
             
             Background="#D9D9D9">
-        </Grid>
+        </Grid>-->
 
         <Grid 
-            x:Name="myWrapPanel"
+            x:Name="notesGrid"
             Background="#D9D9D9"
             Grid.Column="1"
             MinHeight="200"
@@ -97,7 +98,7 @@
                 
                     Grid.Column="0">
                 <StackPanel
-                    x:Name="wrap0">
+                    x:Name="scroll0">
                
                 </StackPanel>
             </ScrollViewer>
@@ -108,7 +109,7 @@
                     VerticalScrollBarVisibility="Hidden"
                     Grid.Column="1">
                 <StackPanel
-                x:Name="wrap1">
+                x:Name="scroll1">
 
                 </StackPanel>
             </ScrollViewer>
@@ -120,7 +121,7 @@
                 
                 Grid.Column="2">
                 <StackPanel
-                x:Name="wrap2">
+                x:Name="scroll2">
                 </StackPanel>
             </ScrollViewer>
         </Grid>
@@ -165,7 +166,9 @@
                 Filtry
             </TextBlock>
         </Grid>
-        <Button  x:Name="rightButton" Click="rightButton_Click"
+        <Button  
+            x:Name="rightButton" 
+            Click="rightButton_Click"
             Content="Right" 
             Grid.Column="2"
             Grid.Row="1"
@@ -209,7 +212,7 @@
                     VerticalAlignment="Top"/>
                 <TextBox
                     x:Name="textField"
-                     Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
+                    Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
                     MinWidth="200"
                     Height="170"
                     Opacity="0"

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -18,6 +16,8 @@ namespace Notes
 {
     class NoteOperations
     {
+        //doesn't use
+        
         public Grid CreateNewNoteGrid(string title, string textReaded)
         {
             Grid grid = new Grid();
