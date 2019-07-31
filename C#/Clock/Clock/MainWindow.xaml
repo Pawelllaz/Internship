@@ -32,7 +32,7 @@
                                                          Storyboard.TargetProperty="Angle"
                                                          Duration="0:0:0.1"
                                                          From="{Binding HfromAngle}"
-                                                         To="{Binding SecondAngle}"/>
+                                                         To="{Binding HAngle}"/>
         </Storyboard>
 
         <Storyboard x:Key="rightSprocketAnimation">

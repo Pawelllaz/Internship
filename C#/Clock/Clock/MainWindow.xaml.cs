@@ -12,6 +12,7 @@ namespace Clock
     public partial class MainWindow : Window//, INotifyPropertyChanged
     {
         private bool flag = true;
+        private bool Hflag = true;
         public double currentMin = 0;
         private double currentH = 0;
 
@@ -46,6 +47,7 @@ namespace Clock
                 currentH -= 12;
             HAngle = currentH * 30;
             HAngle += DateTime.Now.Minute / 2;
+            Console.WriteLine(HAngle);
         }
 
         private void SetMinAngle()
@@ -88,11 +90,18 @@ namespace Clock
                     }
                     if (DateTime.Now.Minute%10 == 0)
                     {
-                        //SetHAngle();
-                        HfromAngle = HAngle;
-                        SetHAngle();
-                        var resourceH = myWindow.Resources["hPointerAnimation"] as Storyboard;
-                        resourceH?.Begin();
+                        if (Hflag)
+                        {
+                            HfromAngle = HAngle;
+                            SetHAngle();
+                            var resourceH = myWindow.Resources["hPointerAnimation"] as Storyboard;
+                            resourceH?.Begin();
+                            Hflag = false;
+                        }
+                    }
+                    else
+                    {
+                        Hflag = true;
                     }
                 });
                 Thread.Sleep(150);
