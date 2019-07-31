@@ -9,8 +9,41 @@
              Focusable="True"
              LostFocus="UserControl_LostFocus"  
              PreviewMouseRightButtonDown="grid_PreviewMouseRightButtonDown">
+    <UserControl.Resources>
+        <Style x:Key="myButton" TargetType="Button">
+            <Setter Property="Background" Value="#D9C9BA"/>
+            <Setter Property="Foreground" Value="#101010"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                            CornerRadius="10"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger
+                    Property="IsMouseOver"
+                    Value="True">
+                    <Setter
+                        Property="Background"
+                        Value="#8C6F65"/>
+                    <Setter
+                        Property="Cursor"
+                        Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Border
-        Background="Yellow"
+        Background="#D9CFC7"
         CornerRadius="10"
         Margin="5">
         <Grid
@@ -27,56 +60,57 @@
                 x:Name="textBlock" 
                 Margin="15, 3, 10, 10"
                 TextWrapping="Wrap"
-                Text="{Binding ReadedText}"
-                Background="Yellow"/>
+                Text="{Binding ReadedText}"/>
             </StackPanel>
 
             <Popup 
                 x:Name="popup" 
                 PlacementTarget="{Binding ElementName=grid}" 
-                Placement="Right" 
+                Placement="Relative" 
                 AllowsTransparency="True"
                 Height="150"
                 Width="130"
-                IsOpen="False">
+                IsOpen="False" >
 
                 <Grid
-                    Width="130"
+                    Width="120"
                     Height="150">
-                    <Path 
-                        Stroke="#FEFFFF"
+                    <!--<Path 
+                        Stroke="#BFADA3"
                         Panel.ZIndex="1"
                         Data="M 0,20 L 11,31 L 11,8 L 0,20"
-                        Fill="#FEFFFF">
+                        Fill="#BFADA3">
 
-                    </Path>
+                    </Path>-->
                     <Border 
                         Width="120" 
                         Height="150"
-                        HorizontalAlignment="Right"
-                        Background="#FEFFFF" 
+                        HorizontalAlignment="Center"
+                        Background="#BFADA3" 
                         CornerRadius="10">
                         <StackPanel>
                             <Button 
+                                Style="{StaticResource myButton}"
                                 x:Name="removeButton" 
-                                Width="100" 
+                                Width="110" 
                                 Height="40"
                                 Margin="0,5,0,0"
                                 Click="removeButtonClick"
                                 Content="Remove note" 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
-                                Background="Transparent"
                                 />
                             <Button 
+                                Style="{StaticResource myButton}"
                                 x:Name="modifyButton" 
-                                Width="100" 
-                                Height="40" 
+                                Width="110" 
+                                Height="40"
+                                Margin="0,5,0,0"
                                 Content="Modify note" 
                                 Click="modifyButtonClick"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
-                                Background="Transparent"/>
+                                />
                         </StackPanel>
                     </Border>
                 </Grid>

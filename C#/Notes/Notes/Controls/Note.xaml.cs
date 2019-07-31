@@ -57,7 +57,11 @@ namespace Notes.Controls
         private void grid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Focus();
-            popup.IsOpen = false;
+            //popup.IsOpen = false;
+            var mousePosition = e.GetPosition(this);
+            popup.HorizontalOffset = mousePosition.X - 7;
+            popup.VerticalOffset = mousePosition.Y - 7;
+
             popup.IsOpen = true;
         }
 
@@ -69,9 +73,7 @@ namespace Notes.Controls
         
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
-            if(removeButton.IsKeyboardFocused != true)
-                popup.IsOpen = false;
-            if (modifyButton.IsKeyboardFocused != true)
+            if ((removeButton.IsKeyboardFocused != true) && (modifyButton.IsKeyboardFocused != true))
                 popup.IsOpen = false;
         }
 
@@ -83,7 +85,6 @@ namespace Notes.Controls
         // nie wywoluje
         private void modifyButtonClick(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("work");
             popup.IsOpen = false;
         }
     }

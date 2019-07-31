@@ -10,6 +10,7 @@
         Height="550" 
         Width="910" 
         MinWidth="630"
+        StateChanged="myWindow_StateChanged"
         LocationChanged="myWindow_LocationChanged"
         WindowStartupLocation="CenterScreen" 
         x:Name="myWindow">
@@ -33,6 +34,10 @@
                              BeginTime="0:0:0.6"
                              Duration="0:0:0.3"
                              To="1.0"/>
+            <DoubleAnimation Storyboard.TargetName="textBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             To="1.0"/>
         </Storyboard>
 
         <Storyboard x:Key="TopPanelAnimationReverse">
@@ -54,10 +59,81 @@
                              BeginTime="0:0:0.18"
                              Duration="0:0:0.6"
                              To="0"/>
+            <DoubleAnimation Storyboard.TargetName="textBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.6"
+                             Duration="0:0:0.3"
+                             To="0"/>
         </Storyboard>
+        
+        <Style x:Key="myButton" TargetType="Button">
+            <Setter Property="Background" Value="#D9C9BA"/>
+            <Setter Property="Foreground" Value="#101010"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                        CornerRadius="10"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="0">
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger
+                Property="IsMouseOver"
+                Value="True">
+                    <Setter
+                    Property="Background"
+                    Value="#8C6F65"/>
+                    <Setter
+                    Property="Cursor"
+                    Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--<Style x:Key="myTextBox" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border 
+                            x:Name="Bd"
+                            Margin="0,10,0,0"
+                            CornerRadius="20"
+                            Background="#D9C9BA">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="Black"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="False">
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="Width" Value="Auto">
+                                <Setter Property="MinWidth" Value="120"/>
+                            </Trigger>
+                            <Trigger Property="Height" Value="Auto">
+                                <Setter Property="MinHeight" Value="27"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
     </Window.Resources>
     <Grid
-        Background="#D9D9D9">
+        Background="#F2ECE4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="7*"/>
@@ -79,7 +155,7 @@
 
         <Grid 
             x:Name="notesGrid"
-            Background="#D9D9D9"
+            Background="#F2ECE4"
             Grid.Column="1"
             MinHeight="200"
             MinWidth="400"
@@ -95,11 +171,9 @@
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
                     VerticalScrollBarVisibility="Hidden"
-                
                     Grid.Column="0">
                 <StackPanel
                     x:Name="scroll0">
-               
                 </StackPanel>
             </ScrollViewer>
 
@@ -110,7 +184,6 @@
                     Grid.Column="1">
                 <StackPanel
                 x:Name="scroll1">
-
                 </StackPanel>
             </ScrollViewer>
 
@@ -118,44 +191,13 @@
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
                     VerticalScrollBarVisibility="Hidden"
-                
                 Grid.Column="2">
                 <StackPanel
                 x:Name="scroll2">
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-
-        <!--<ItemsControl
-            x:Name="myWrapPanel"
-            Background="#D9D9D9"
-            Grid.Column="1"
-            MinHeight="200"
-            MinWidth="400"
-            Grid.Row="1"
-            Grid.RowSpan="2">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate >
-                    <Grid Width="100" Height="100" Background="Yellow">
-                        <StackPanel>
-                            <TextBox>test</TextBox>
-                            <TextBox>test2</TextBox>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-
-            <Control></Control>
-            <Control></Control>
-        </ItemsControl>-->
-
-
-
+        
         <Grid 
             Background="Aqua"
             Grid.Column="0"
@@ -163,13 +205,13 @@
             Height="150"
             Margin="0,50,0,0">
             <TextBlock>
-                Filtry
+                unused left side
             </TextBlock>
         </Grid>
-        <Button  
-            x:Name="rightButton" 
-            Click="rightButton_Click"
-            Content="Right" 
+        <TextBlock  
+            x:Name="rightButton"
+            Background="Blue"
+            Text="unused right side"
             Grid.Column="2"
             Grid.Row="1"
             Margin="0,50,0,0"/>
@@ -201,32 +243,53 @@
                 Grid.Column="1"
                 Height="Auto"
                 VerticalAlignment="Top">
-                <TextBox
-                    x:Name="titleField"
-                    Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
-                    Height="30"
-                    Margin="0,10,0,0"
-                    Text="{Binding NewNoteTitle}"
-                    PreviewMouseDown="TitleName_PreviewMouseDown"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"/>
-                <TextBox
-                    x:Name="textField"
-                    Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
-                    MinWidth="200"
-                    Height="170"
-                    Opacity="0"
+                <Border
+                    x:Name="textBorder"
                     Margin="0,42,0,0"
-                    Text="{Binding NewNoteTxt}"
-                    PreviewMouseDown="TxtName_PreviewMouseDown"
-                    Grid.Column="1" 
-                    HorizontalAlignment="Center"
+                    CornerRadius="20"
+                    Background="#BFADA3"
+                    Opacity="0">
+                    <TextBox
+                        x:Name="textField"
+                        Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
+                        MinWidth="200"
+                        Height="170"
+                        Padding="10"
+                        Opacity="1"
+                        Text="{Binding NewNoteTxt}"
+                        PreviewMouseDown="TxtName_PreviewMouseDown"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap"/>
+                </Border>
+                <Border
                     VerticalAlignment="Top"
-                    AcceptsReturn="True"
-                    TextWrapping="Wrap"/>
+                    CornerRadius="20"
+                    Margin="0,5,0,0"
+                    Background="#BFADA3">
+                    <TextBox
+                        x:Name="titleField"
+                        Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
+                        Height="35"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center"
+                        Padding="12,0,12,0"
+                        Text="{Binding NewNoteTitle}"
+                        FontSize="15"
+                        PreviewMouseDown="TitleName_PreviewMouseDown"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Background="Transparent"
+                        />
+                </Border>
+               
             </Grid>
             
             <Button 
+                Style="{StaticResource myButton}"
                 x:Name="addButton"
                 Click="AddButtonClick"
                 Height="30"
@@ -236,9 +299,10 @@
                 IsEnabled="False"
                 VerticalAlignment="Bottom"
                 Grid.Column="1"
-                Content="Add"
+                Content="default"
                 Opacity="0"/>
             <Button
+                Style="{StaticResource myButton}"
                 x:Name="clearButton"
                 Click="ClearButtonClick"
                 Grid.Column="1"
@@ -248,7 +312,7 @@
                 HorizontalAlignment="Right"
                 Margin="0,0,55,5"
                 IsEnabled="False"
-                Content="Clear"
+                Content="default"
                 Opacity="0"/>
 
            

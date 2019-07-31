@@ -57,27 +57,27 @@ namespace Notes
             DataContext = this;
             NewNoteTitle = "Add note title...";
             NewNoteTxt = "Add note text...";
-            AddNewNotes();
+            
             FileOperations fileOperations = new FileOperations(directoryPath);
 
             if (!fileOperations.CreateDirectory())
             {
                 Application.Current.Shutdown();
             }
-
+            AddNewNotes();
         }
 
         private void myWindow_LocationChanged(object sender, EventArgs e)
         {
             Note note = Notes.Values.FirstOrDefault(x => x.popup.IsOpen == true);
-
+            note.popup.IsOpen = false;
             //if(note != null)
-            {
+            //{
               //  note.Background = Brushes.Green;
-                var offset = note.popup.HorizontalOffset;
-                note.popup.HorizontalOffset = offset + 1;
-                note.popup.HorizontalOffset = offset;
-            }
+                //var offset = note.popup.HorizontalOffset;
+                //note.popup.HorizontalOffset = offset + 1;
+                //note.popup.HorizontalOffset = offset;
+            //}
         }
 
         //////////////---> BUTTONS <---///////////////////////////
@@ -114,13 +114,15 @@ namespace Notes
         private void TitleName_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             EnableButtons();
-            NewNoteTitle = string.Empty;
+            if(NewNoteTitle == "Add note title...")
+                NewNoteTitle = string.Empty;
             TopPanelAnimation();
         }
 
         private void TxtName_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            NewNoteTxt = string.Empty;
+            if(NewNoteTxt == "Add note text...")
+                NewNoteTxt = string.Empty;
         }
 
         ////////////////---> HELPERS <---///////////////////////
@@ -141,7 +143,7 @@ namespace Notes
             if (!String.IsNullOrEmpty(NewNoteTitle))
             {
                 FileOperations fileOperations = new FileOperations(directoryPath);
-                fileOperations.WriteNoteText(NewNoteTitle, NewNoteTxt);
+                fileOperations.WriteNoteText(NewNoteTitle, $@"{NewNoteTxt}");
             }
         }
 
@@ -159,9 +161,12 @@ namespace Notes
                     var note = new Note();
                     note.ReadedText = fileOperations.ReadTextFromFile(filePath);
                     note.NoteTitle = Path.GetFileNameWithoutExtension(filePath);
+
                     note.removeButton.Click += RemoveNoteHandler;
                     note.modifyButton.Click += ModifyNoteHandler;
+
                     Notes.Add(filePath, note);
+
                     switch (GridColumnControl())
                     {
                         case 0:
@@ -178,74 +183,34 @@ namespace Notes
 
                     //ChooseColumn();
                 }
-            }
-        }
-
-        // nie dziala...
-        private void ModifyNoteHandler(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            FileOperations fileOperations = new FileOperations(directoryPath);
-
-            if (button != null)
-            {
-                var note = Notes.Values.FirstOrDefault(x => x.removeButton == button);
-
-                if (note != null)
+                else
                 {
-                    var parent = note.Parent as Panel;
-                    string notePath = Notes.First(x => x.Value == note).Key;
-                    TopPanelAnimation();
-                    NewNoteTitle = Path.GetFileNameWithoutExtension(notePath);
-                    NewNoteTxt = fileOperations.ReadTextFromFile(notePath);
+                    var note = Notes[filePath];
+                    note.ReadedText = fileOperations.ReadTextFromFile(filePath);
+                    note.NoteTitle = Path.GetFileNameWithoutExtension(filePath);
                 }
             }
         }
-
-        private void RemoveNoteHandler(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-
-            if(button != null)
-            {
-                var note = Notes.Values.FirstOrDefault(x => x.removeButton == button);
-
-                if (note != null)
-                {
-                    var parent = note.Parent as Panel;
-                    parent.Children.Remove(note);
-                    string noteKey = Notes.First(x => x.Value == note).Key;
-                    File.Delete(noteKey);
-                    Notes.Remove(noteKey);
-                }
-            }
-        }
-
-        //private void ChooseColumn()
-        //{
-        //    var note = new Note();
-        //    //Notes.Add("note1", note);
-        //    switch (GridColumnControl())
-        //    {
-        //        case 0:
-        //            scroll0.Children.Add(note);
-        //            break;
-        //        case 1:
-        //            scroll1.Children.Add(note);
-        //            break;
-        //        case 2:
-        //            scroll2.Children.Add(note);
-        //            break;
-        //    }
-        //}
-
 
         // animations
         private void TopPanelAnimation()
         {
             var resource = myWindow.Resources["TopPanelAnimation"] as Storyboard;
             resource?.Begin();
+
+            addButton.Content = "Add";
+            clearButton.Content = "Clear";
         }
+
+        private void TopPanelAnimationModify()
+        {
+            var resource = myWindow.Resources["TopPanelAnimation"] as Storyboard;
+            resource?.Begin();
+
+            addButton.Content = "Save";
+            clearButton.Content = "Cancel";
+        }
+
         private void TopPanelAnimationReverse()
         {
             var resource = myWindow.Resources["TopPanelAnimationReverse"] as Storyboard;
@@ -260,15 +225,57 @@ namespace Notes
             return gridColumnIterator;
         }
 
-        private void rightButton_Click(object sender, RoutedEventArgs e)
+        ////////////// ---> HANDLERS <--- /////////////////////
+        private void ModifyNoteHandler(object sender, RoutedEventArgs e)
         {
-            //popup.IsOpen = !popup.IsOpen;
-            var note = new Note();
-            Notes.Add("note1", note);
-            notesGrid.Children.Add(note);
+            Button button = sender as Button;
+            FileOperations fileOperations = new FileOperations(directoryPath);
+
+            if (button != null)
+            {
+                var note = Notes.Values.FirstOrDefault(x => x.modifyButton == button);
+
+                if (note != null)
+                {
+                    //var parent = note.Parent as Panel;
+                    string notePath = Notes.First(x => x.Value == note).Key;
+
+                    EnableButtons();
+                    TopPanelAnimationModify();
+
+                    NewNoteTitle = Path.GetFileNameWithoutExtension(notePath);
+                    NewNoteTxt = fileOperations.ReadTextFromFile(notePath);
+
+                }
+            }
         }
 
-        
+        private void RemoveNoteHandler(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                var note = Notes.Values.FirstOrDefault(x => x.removeButton == button);
+
+                if (note != null)
+                {
+                    var parent = note.Parent as Panel;
+                    parent.Children.Remove(note);
+                    string noteKey = Notes.First(x => x.Value == note).Key;
+                    File.Delete(noteKey);
+                    Notes.Remove(noteKey);
+                }
+            }
+        }
+
+        private void myWindow_StateChanged(object sender, EventArgs e)
+        {
+            if(myWindow.WindowState == WindowState.Minimized)
+            {
+                Note note = Notes.Values.FirstOrDefault(x => x.popup.IsOpen == true);
+                note.popup.IsOpen = false;
+            }
+        }
         
     }
 }
