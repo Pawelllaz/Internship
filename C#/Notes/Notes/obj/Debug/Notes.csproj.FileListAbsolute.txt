@@ -17,3 +17,10 @@ C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csproj.CoreC
 C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.exe
 C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.pdb
 C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csprojAssemblyReference.cache
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignColors.dll
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignColors.pdb
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\App.baml
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csproj.CopyComplete

@@ -1,6 +1,7 @@
 ﻿using Notes.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using MaterialDesignColors;
+using MaterialDesignThemes.Wpf;
 
 namespace Notes
 {
@@ -20,7 +23,22 @@ namespace Notes
         private int gridColumnIterator = 0;
         //private List<string> FilesPaths = new List<string>();
         private  Dictionary<string, Note> Notes = new Dictionary<string, Note>();
+        public ObservableCollection<int> MinuteCollection { get; set; }
+        public ObservableCollection<int> HoursCollection { get; set; }
         private string directoryPath = @"C:/notes";
+        private string _noteStatus;
+        public string NoteStatus
+        {
+            get
+            {
+                return _noteStatus;
+            }
+            set
+            {
+                _noteStatus = value;
+                OnPropertyChanged(nameof(NoteStatus));
+            }
+        }
         private string _newNoteTitle;
         public string NewNoteTitle
         {
@@ -57,7 +75,18 @@ namespace Notes
             DataContext = this;
             NewNoteTitle = "Add note title...";
             NewNoteTxt = "Add note text...";
-            
+            HoursCollection = new ObservableCollection<int> { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,00};
+            MinuteCollection = new ObservableCollection<int>();
+            for(int i=1;i<60;i++)
+            {
+                MinuteCollection.Add(i);
+            }
+            MinuteCollection.Add(0);
+
+            //Color primaryColor = Colors.Brown;
+            //Color secondaryColor = Colors.BlanchedAlmond;
+            //IBaseTheme baseTheme = Theme.Light;
+            //Theme theme = Theme.Create(baseTheme, primaryColor, secondaryColor);
             FileOperations fileOperations = new FileOperations(directoryPath);
 
             if (!fileOperations.CreateDirectory())
@@ -85,7 +114,16 @@ namespace Notes
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             DisableButtons();
-            WriteNote();
+            if (WriteNote())
+            {
+                NoteStatus = "New note added";
+                StatusAnimation();
+            }
+            else
+            {
+                NoteStatus = "Canceled empty text";
+                StatusAnimation();
+            }
             TopPanelAnimationReverse();
             SetNoteDefaultTxt();
             AddNewNotes();
@@ -96,6 +134,8 @@ namespace Notes
             DisableButtons();
             TopPanelAnimationReverse();
             SetNoteDefaultTxt();
+            NoteStatus = "Canceled";
+            StatusAnimation();
         }
 
         // Buttons operations
@@ -138,13 +178,15 @@ namespace Notes
             NewNoteTitle = "Add note title...";
         }
 
-        private void WriteNote()
+        private bool WriteNote()
         {
             if (!String.IsNullOrEmpty(NewNoteTitle))
             {
                 FileOperations fileOperations = new FileOperations(directoryPath);
                 fileOperations.WriteNoteText(NewNoteTitle, $@"{NewNoteTxt}");
+                return true;
             }
+            return false;
         }
 
         private void AddNewNotes()
@@ -199,21 +241,26 @@ namespace Notes
             resource?.Begin();
 
             addButton.Content = "Add";
-            clearButton.Content = "Clear";
         }
 
         private void TopPanelAnimationModify()
         {
+            NoteStatus = "Note saved";
             var resource = myWindow.Resources["TopPanelAnimation"] as Storyboard;
             resource?.Begin();
 
             addButton.Content = "Save";
-            clearButton.Content = "Cancel";
         }
 
         private void TopPanelAnimationReverse()
         {
             var resource = myWindow.Resources["TopPanelAnimationReverse"] as Storyboard;
+            resource?.Begin();
+        }
+
+        private void StatusAnimation()
+        {
+            var resource = myWindow.Resources["StatusAnimation"] as Storyboard;
             resource?.Begin();
         }
 
@@ -264,6 +311,8 @@ namespace Notes
                     string noteKey = Notes.First(x => x.Value == note).Key;
                     File.Delete(noteKey);
                     Notes.Remove(noteKey);
+                    NoteStatus = "Note removed";
+                    StatusAnimation();
                 }
             }
         }
@@ -276,6 +325,10 @@ namespace Notes
                 note.popup.IsOpen = false;
             }
         }
-        
+
+        private void DateButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

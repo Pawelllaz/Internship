@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="clr-namespace:Notes.Controls"
         xmlns:local="clr-namespace:Notes"
         mc:Ignorable="d"
@@ -34,6 +35,21 @@
                              BeginTime="0:0:0.6"
                              Duration="0:0:0.3"
                              To="1.0"/>
+            <DoubleAnimation Storyboard.TargetName="dateButton"
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.6"
+                             Duration="0:0:0.3"
+                             To="1.0"/>
+            <DoubleAnimation Storyboard.TargetName="myDatePicker"
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.6"
+                             Duration="0:0:0.3"
+                             To="1.0"/>
+            <DoubleAnimation Storyboard.TargetName="myTimePicker"
+                             Storyboard.TargetProperty="Opacity"
+                             BeginTime="0:0:0.6"
+                             Duration="0:0:0.3"
+                             To="1.0"/>
             <DoubleAnimation Storyboard.TargetName="textBorder"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
@@ -45,12 +61,24 @@
                              Storyboard.TargetProperty="Height"
                              BeginTime="0:0:0.18"
                              Duration="0:0:0.6"
-                             To="50"/>
+                             To="80"/>
             <DoubleAnimation Storyboard.TargetName="addButton"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="clearButton"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="dateButton"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="myDatePicker"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="myTimePicker"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
                              To="0"/>
@@ -65,10 +93,23 @@
                              Duration="0:0:0.3"
                              To="0"/>
         </Storyboard>
+
+        <Storyboard x:Key="StatusAnimation">
+            <DoubleAnimation Storyboard.TargetName="StatusInfo"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1.0"
+                             Duration="0:0:1.2"
+                             AutoReverse="True"/>
+        </Storyboard>
         
         <Style x:Key="myButton" TargetType="Button">
             <Setter Property="Background" Value="#D9C9BA"/>
             <Setter Property="Foreground" Value="#101010"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -197,8 +238,8 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        
-        <Grid 
+
+            <Grid 
             Background="Aqua"
             Grid.Column="0"
             Grid.Row="1"
@@ -224,7 +265,7 @@
 
         <Grid
             x:Name="TopPanel"
-            Height="50"
+            Height="80"
             Grid.Column="1"
             Grid.Row="0"
             Grid.RowSpan="2"
@@ -292,12 +333,8 @@
                 Style="{StaticResource myButton}"
                 x:Name="addButton"
                 Click="AddButtonClick"
-                Height="30"
-                Width="50"
-                HorizontalAlignment="Right"
                 Margin="0,0,0,5"
                 IsEnabled="False"
-                VerticalAlignment="Bottom"
                 Grid.Column="1"
                 Content="default"
                 Opacity="0"/>
@@ -306,17 +343,54 @@
                 x:Name="clearButton"
                 Click="ClearButtonClick"
                 Grid.Column="1"
-                Height="30"
-                Width="50"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
                 Margin="0,0,55,5"
                 IsEnabled="False"
-                Content="default"
+                Content="Cancel"
                 Opacity="0"/>
-
-           
+            <Button
+                Style="{StaticResource myButton}"
+                x:Name="dateButton"
+                Click="DateButtonClick"
+                Grid.Column="1"
+                Margin="0,0,110,5"
+                IsEnabled="False"
+                Content="Set date"
+                Opacity="0"/>
+            <DatePicker 
+                x:Name="myDatePicker"
+                Grid.Column="1"
+                Width="100"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,165,0"
+                Opacity="0"/>
+            <materialDesign:TimePicker
+                x:Name="myTimePicker"
+                Grid.Column="1"
+                Width="80"
+                Height="25"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,0,275,0"
+                Opacity="0"/>
         </Grid>
+
+        <TextBlock
+            x:Name="StatusInfo"
+            Grid.Column="2"
+            Grid.Row="0"
+            Margin="0,5,0,0"
+            Text="{Binding NoteStatus}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            FontSize="17"
+            Foreground="#5F5D53"
+            FontStyle="Italic"
+            FontWeight="Black"
+            TextWrapping="Wrap"
+            Opacity="0">
+
+        </TextBlock>
 
         <!--<controls:MyControl Grid.Row="1" Grid.Column="1" Width="100" Height="130" />-->
     </Grid>
