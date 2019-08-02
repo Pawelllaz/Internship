@@ -114,7 +114,23 @@ namespace Notes
         private void AddButtonClick(object sender, RoutedEventArgs e)
         {
             DisableButtons();
-            if (WriteNote())
+            DateTime time;
+            string strTime = null;
+            if (myTimePicker.SelectedTime != null)
+            {
+                time = (DateTime)myTimePicker.SelectedTime;
+                strTime = time.ToString("HH:mm tt");
+            }
+
+            DateTime date;
+            string strDate = null;
+            if (myDatePicker.SelectedDate != null)
+            {
+                date = (DateTime)myDatePicker.SelectedDate;
+                strDate = date.ToString("MM/dd/yyyy");
+            }
+
+            if (WriteNote(strDate, strTime))
             {
                 NoteStatus = "New note added";
                 StatusAnimation();
@@ -138,16 +154,25 @@ namespace Notes
             StatusAnimation();
         }
 
+        //private void DateButtonClick(object sender, RoutedEventArgs e)
+        //{
+        //    Console.WriteLine(myDatePicker.SelectedDate);
+        //}
+
         // Buttons operations
         private void EnableButtons()
         {
             addButton.IsEnabled = true;
             clearButton.IsEnabled = true;
+            myDatePicker.IsEnabled = true;
+            myTimePicker.IsEnabled = true;
         }
         private void DisableButtons()
         {
             addButton.IsEnabled = false;
             clearButton.IsEnabled = false;
+            myDatePicker.IsEnabled = false;
+            myTimePicker.IsEnabled = false;
         }
 
         ////////////////---> MOUSE EVENTS <---///////////////////////
@@ -178,12 +203,12 @@ namespace Notes
             NewNoteTitle = "Add note title...";
         }
 
-        private bool WriteNote()
+        private bool WriteNote(string date, string time)
         {
             if (!String.IsNullOrEmpty(NewNoteTitle))
             {
                 FileOperations fileOperations = new FileOperations(directoryPath);
-                fileOperations.WriteNoteText(NewNoteTitle, $@"{NewNoteTxt}");
+                fileOperations.WriteNoteText(NewNoteTitle, $@"{NewNoteTxt}", date, time);
                 return true;
             }
             return false;
@@ -193,7 +218,7 @@ namespace Notes
         {
             NoteOperations noteOperations = new NoteOperations();
             FileOperations fileOperations = new FileOperations(directoryPath);
-            string[] files = fileOperations.ReadFilesPaths();
+            List<string> files = fileOperations.ReadFilesPaths();
 
             foreach (string filePath in files)
             {
@@ -277,7 +302,7 @@ namespace Notes
         {
             Button button = sender as Button;
             FileOperations fileOperations = new FileOperations(directoryPath);
-
+            
             if (button != null)
             {
                 var note = Notes.Values.FirstOrDefault(x => x.modifyButton == button);
@@ -289,9 +314,9 @@ namespace Notes
 
                     EnableButtons();
                     TopPanelAnimationModify();
-
+                    fileOperations.RemoveTimeFile(notePath);
                     NewNoteTitle = Path.GetFileNameWithoutExtension(notePath);
-                    NewNoteTxt = fileOperations.ReadTextFromFile(notePath);
+                    NewNoteTxt = fileOperations.ReadTextFromFileWithoutDate(notePath);
 
                 }
             }
@@ -326,9 +351,6 @@ namespace Notes
             }
         }
 
-        private void DateButtonClick(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }

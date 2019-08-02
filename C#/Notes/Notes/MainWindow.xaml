@@ -35,11 +35,11 @@
                              BeginTime="0:0:0.6"
                              Duration="0:0:0.3"
                              To="1.0"/>
-            <DoubleAnimation Storyboard.TargetName="dateButton"
+            <!--<DoubleAnimation Storyboard.TargetName="dateButton"
                              Storyboard.TargetProperty="Opacity"
                              BeginTime="0:0:0.6"
                              Duration="0:0:0.3"
-                             To="1.0"/>
+                             To="1.0"/>-->
             <DoubleAnimation Storyboard.TargetName="myDatePicker"
                              Storyboard.TargetProperty="Opacity"
                              BeginTime="0:0:0.6"
@@ -61,7 +61,7 @@
                              Storyboard.TargetProperty="Height"
                              BeginTime="0:0:0.18"
                              Duration="0:0:0.6"
-                             To="80"/>
+                             To="50"/>
             <DoubleAnimation Storyboard.TargetName="addButton"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
@@ -70,10 +70,10 @@
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
                              To="0"/>
-            <DoubleAnimation Storyboard.TargetName="dateButton"
+            <!--<DoubleAnimation Storyboard.TargetName="dateButton"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
-                             To="0"/>
+                             To="0"/>-->
             <DoubleAnimation Storyboard.TargetName="myDatePicker"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
@@ -265,7 +265,7 @@
 
         <Grid
             x:Name="TopPanel"
-            Height="80"
+            Height="50"
             Grid.Column="1"
             Grid.Row="0"
             Grid.RowSpan="2"
@@ -279,11 +279,91 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
+            
+
+            <Button 
+                Width="90"
+                Height="35"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                x:Name="addButton"
+                Click="AddButtonClick"
+                Margin="0,0,20,0"
+                IsEnabled="False"
+                Grid.Column="1"
+                Content="default"
+                Opacity="0"/>
+
+            <Button
+                Width="90"
+                Height="35"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                x:Name="clearButton"
+                Click="ClearButtonClick"
+                Grid.Column="1"
+                Margin="0,0,115,0"
+                IsEnabled="False"
+                Content="Cancel"
+                Opacity="0"/>
+            <!--<Button
+                Width="90"
+                Height="35"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                x:Name="dateButton"
+                Click="DateButtonClick"
+                Grid.Column="1"
+                Margin="220,0,0,0"
+                IsEnabled="False"
+                Content="Set date"
+                Opacity="0"/>-->
+            <DatePicker 
+                x:Name="myDatePicker"
+                Grid.Column="1"
+                Width="100"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                Margin="110,0,0,0"
+                Opacity="0"/>
+            
+            <materialDesign:TimePicker
+                SelectedTimeFormat="Short"
+                x:Name="myTimePicker"
+                Grid.Column="1"
+                Width="80"
+                Height="25"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                Margin="20,0,0,0"
+                Opacity="0"/>
+            
             <Grid 
                 x:Name="TitleGrid" 
                 Grid.Column="1"
                 Height="Auto"
                 VerticalAlignment="Top">
+                <Border
+                    VerticalAlignment="Top"
+                    CornerRadius="20"
+                    Margin="0,5,0,0"
+                    Background="#BFADA3">
+                    <TextBox
+                        x:Name="titleField"
+                        Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
+                        Height="35"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center"
+                        Margin="20,0,20,0"
+                        Padding="12,0,12,0"
+                        Text="{Binding NewNoteTitle}"
+                        FontSize="15"
+                        PreviewMouseDown="TitleName_PreviewMouseDown"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Background="Transparent"
+                        />
+                </Border>
                 <Border
                     x:Name="textBorder"
                     Margin="0,42,0,0"
@@ -296,8 +376,10 @@
                         MinWidth="200"
                         Height="170"
                         Padding="10"
+                        Margin="20,0,20,0"
                         Opacity="1"
                         Text="{Binding NewNoteTxt}"
+                        VerticalContentAlignment="Top"
                         PreviewMouseDown="TxtName_PreviewMouseDown"
                         Background="Transparent"
                         BorderThickness="0"
@@ -306,73 +388,7 @@
                         AcceptsReturn="True"
                         TextWrapping="Wrap"/>
                 </Border>
-                <Border
-                    VerticalAlignment="Top"
-                    CornerRadius="20"
-                    Margin="0,5,0,0"
-                    Background="#BFADA3">
-                    <TextBox
-                        x:Name="titleField"
-                        Width="{Binding ElementName=TitleGrid, Path=ActualWidth}"
-                        Height="35"
-                        BorderThickness="0"
-                        VerticalContentAlignment="Center"
-                        Padding="12,0,12,0"
-                        Text="{Binding NewNoteTitle}"
-                        FontSize="15"
-                        PreviewMouseDown="TitleName_PreviewMouseDown"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Background="Transparent"
-                        />
-                </Border>
-               
             </Grid>
-            
-            <Button 
-                Style="{StaticResource myButton}"
-                x:Name="addButton"
-                Click="AddButtonClick"
-                Margin="0,0,0,5"
-                IsEnabled="False"
-                Grid.Column="1"
-                Content="default"
-                Opacity="0"/>
-            <Button
-                Style="{StaticResource myButton}"
-                x:Name="clearButton"
-                Click="ClearButtonClick"
-                Grid.Column="1"
-                Margin="0,0,55,5"
-                IsEnabled="False"
-                Content="Cancel"
-                Opacity="0"/>
-            <Button
-                Style="{StaticResource myButton}"
-                x:Name="dateButton"
-                Click="DateButtonClick"
-                Grid.Column="1"
-                Margin="0,0,110,5"
-                IsEnabled="False"
-                Content="Set date"
-                Opacity="0"/>
-            <DatePicker 
-                x:Name="myDatePicker"
-                Grid.Column="1"
-                Width="100"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="0,0,165,0"
-                Opacity="0"/>
-            <materialDesign:TimePicker
-                x:Name="myTimePicker"
-                Grid.Column="1"
-                Width="80"
-                Height="25"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="0,0,275,0"
-                Opacity="0"/>
         </Grid>
 
         <TextBlock
