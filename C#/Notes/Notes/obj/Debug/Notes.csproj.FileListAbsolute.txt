@@ -24,3 +24,5 @@ C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignThem
 C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\bin\Debug\MaterialDesignThemes.Wpf.xml
 C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\App.baml
 C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Notes.csproj.CopyComplete
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Remind.g.cs
+C:\Users\Praktyka\Desktop\Internship\C#\Notes\Notes\obj\Debug\Remind.baml

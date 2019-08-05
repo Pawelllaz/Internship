@@ -75,18 +75,7 @@ namespace Notes
             DataContext = this;
             NewNoteTitle = "Add note title...";
             NewNoteTxt = "Add note text...";
-            HoursCollection = new ObservableCollection<int> { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,00};
-            MinuteCollection = new ObservableCollection<int>();
-            for(int i=1;i<60;i++)
-            {
-                MinuteCollection.Add(i);
-            }
-            MinuteCollection.Add(0);
-
-            //Color primaryColor = Colors.Brown;
-            //Color secondaryColor = Colors.BlanchedAlmond;
-            //IBaseTheme baseTheme = Theme.Light;
-            //Theme theme = Theme.Create(baseTheme, primaryColor, secondaryColor);
+            
             FileOperations fileOperations = new FileOperations(directoryPath);
 
             if (!fileOperations.CreateDirectory())
@@ -99,7 +88,9 @@ namespace Notes
         private void myWindow_LocationChanged(object sender, EventArgs e)
         {
             Note note = Notes.Values.FirstOrDefault(x => x.popup.IsOpen == true);
-            note.popup.IsOpen = false;
+            if (note != null)
+                note.popup.IsOpen = false;
+            
             //if(note != null)
             //{
               //  note.Background = Brushes.Green;
@@ -134,6 +125,8 @@ namespace Notes
             {
                 NoteStatus = "New note added";
                 StatusAnimation();
+                Remind remind = new Remind();
+                remind.SetReminder(strDate, strTime, mainGrid, NewNoteTitle, NewNoteTxt);
             }
             else
             {
@@ -216,7 +209,7 @@ namespace Notes
 
         private void AddNewNotes()
         {
-            NoteOperations noteOperations = new NoteOperations();
+            //NoteOperations noteOperations = new NoteOperations();
             FileOperations fileOperations = new FileOperations(directoryPath);
             List<string> files = fileOperations.ReadFilesPaths();
 
