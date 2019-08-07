@@ -12,16 +12,34 @@ namespace UDP
     class Program
     {
         private static string filePath;
-        private int port;
+        private static int port;
         private static string data;
+        private static string address;
+        private static int sleepMilisec;
+
         public static UdpClient udpClient;
 
 
         static void Main(string[] args)
         {
-            udpClient = new UdpClient("127.0.0.1", 1234);
-
             filePath = @"C:\Users\Praktyka\Desktop\data2.txt";
+            port = 1234;
+            address = "127.0.0.4";
+            sleepMilisec = 200;
+
+            if (args.Length > 2)
+            {
+                address = args[0];
+                port = Int32.Parse(args[1]);
+                filePath = args[2];
+            }
+            if(args.Length == 4)
+            {
+                sleepMilisec = Int32.Parse(args[3]);
+            }
+
+            udpClient = new UdpClient(address, port);
+
             data = ReadDataFromFile(filePath);
 
             string tempDate = string.Empty;
@@ -32,7 +50,7 @@ namespace UDP
                     i += 3;
                     SendData(tempDate);
                     Console.WriteLine(tempDate);
-                    Thread.Sleep(200);
+                    Thread.Sleep(sleepMilisec);
                     tempDate = "SIM";
                 }
 

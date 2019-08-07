@@ -1,7 +1,6 @@
 C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\bin\Debug\UDP.exe.config
 C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\bin\Debug\UDP.exe
 C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\bin\Debug\UDP.pdb
-C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\obj\Debug\UDP.csprojAssemblyReference.cache
 C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\obj\Debug\UDP.csproj.CoreCompileInputs.cache
 C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\obj\Debug\UDP.exe
 C:\Users\Praktyka\Desktop\Internship\C#\UDP\UDP\obj\Debug\UDP.pdb
