@@ -173,8 +173,7 @@
             </Setter>
         </Style>-->
     </Window.Resources>
-    <Grid
-        x:Name="mainGrid"
+    <Grid x:Name="mainGrid"
         Background="#F2ECE4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -194,6 +193,10 @@
             
             Background="#D9D9D9">
         </Grid>-->
+
+        <Grid x:Name="centerGrid" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            
+        </Grid>
 
         <Grid 
             x:Name="notesGrid"

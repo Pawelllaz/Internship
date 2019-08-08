@@ -5,66 +5,85 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:Notes"
              mc:Ignorable="d"
-             Height="150" 
-             Width="300">
-    <Popup 
-        x:Name="remindPopup" 
-        Placement="Center" 
-        AllowsTransparency="True"
-        Height="150"
-        Width="300"
-        IsOpen="True" >
-        
-        <Grid
-            Width="300"
-            Height="150"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center">
+             x:Name="reminderControl"
+             Height="170" 
+             Width="270">
+    
+    <Grid x:Name="grid">
+        <Popup 
+            x:Name="remindPopup"
+            Width="270"
+            Height="170"
+            Placement="Center"
+            PlacementTarget="{Binding reminderControl}"
+            AllowsTransparency="True">
             <Border 
-                Width="200" 
-                Height="100"
-                HorizontalAlignment="Center"
+                Width="250" 
+                Height="150"
                 Background="#A67968" 
                 CornerRadius="25">
                 <Border.Effect>
                     <DropShadowEffect  BlurRadius="10" ShadowDepth="5"/>
                 </Border.Effect>
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
                     <TextBlock
                         x:Name="remindTitle"
-                        VerticalAlignment="Top"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="0"
+                        VerticalAlignment="Bottom"
                         HorizontalAlignment="Left"
-                        Margin="15,5,10,10">
-                    </TextBlock>
+                        FontSize="18"
+                        FontWeight="Medium"
+                        Text="Tytul notatki"
+                        Margin="20,5,15,0"/>
 
                     <TextBlock
                         x:Name="remindText"
-                        Height="34"
-                        VerticalAlignment="Top"
                         HorizontalAlignment="Left"
-                        Margin="15,30,10,10"
-                        TextWrapping="Wrap">
-                    </TextBlock>
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        FontSize="13"
+                        Text="teksttekstteksttekstteksttekstteksttekstteksttekstteksttekstteksttekstteksttekstteksttekstteksttekstteksttekst..."
+                        Margin="25,5,15,5"
+                        TextWrapping="Wrap"/>
 
                     <TextBlock
-                        VerticalAlignment="Bottom"
+                        x:Name="timeTextBlock"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="2"
+                        VerticalAlignment="Top"
                         HorizontalAlignment="Left"
-                        Margin="20,10,10,5">
-                        reminded at:
-                    </TextBlock>
+                        FontSize="17"
+                        FontWeight="Medium"
+                        Margin="15,10,5,5"/>
+
                     <Button
-                        VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right"
-                        Width="35"
-                        Height="20"
-                        Margin="0,0,20,7"
+                        x:Name="remindCloseButton"
+                        Click="remindClose_Click"   
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        Width="50"
+                        Height="35"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="10,5,5,5"
                         Content="Close"
-                        FontSize="10"
-                        Padding="1">
-                        
-                    </Button>
+                        FontSize="15"
+                        Padding="1"/>
                 </Grid>
             </Border>
-        </Grid>
-    </Popup>
+        </Popup>
+    </Grid>
 </UserControl>

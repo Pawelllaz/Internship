@@ -32,8 +32,10 @@ namespace Notes
             //thread.Start();
 
         }
-        // nie mam pomyslu..............
-        public void Worker()
+
+        // dokoncz to  <<<===========================
+
+        public void Worker(string dateTime_Date, string dateTime_Time, Grid grid, string title, string text)
         {
             while (flag)
             {
@@ -69,12 +71,20 @@ namespace Notes
             date = dateTime_Date;
             time = dateTime_Time;
             remindTitle.Text = title;
-            if (text.Length > 50)
-                remindText.Text = String.Format(text.Substring(0, 50) + "...");
+            if (text.Length > 85)
+                remindText.Text = String.Format(text.Substring(0, 85) + "...");
             else
-                remindText.Text = String.Format(text.Substring(0, text.Length) + "...");
+                remindText.Text = text;
+            timeTextBlock.Text = String.Format("Reminded at: " + dateTime_Time);
+          //  remindPopup.PlacementTarget = grid;
+          //  remindPopup.Placement = System.Windows.Controls.Primitives.PlacementMode.Center;
 
-            remindPopup.PlacementTarget = grid;
+            // return this;
+        }
+
+        private void remindClose_Click(object sender, RoutedEventArgs e)
+        {
+            remindPopup.IsOpen=false;
         }
     }
 }

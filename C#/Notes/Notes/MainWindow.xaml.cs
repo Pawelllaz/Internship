@@ -20,6 +20,7 @@ namespace Notes
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private Remind remind = null;
         private int gridColumnIterator = 0;
         //private List<string> FilesPaths = new List<string>();
         private  Dictionary<string, Note> Notes = new Dictionary<string, Note>();
@@ -90,14 +91,13 @@ namespace Notes
             Note note = Notes.Values.FirstOrDefault(x => x.popup.IsOpen == true);
             if (note != null)
                 note.popup.IsOpen = false;
-            
-            //if(note != null)
-            //{
-              //  note.Background = Brushes.Green;
-                //var offset = note.popup.HorizontalOffset;
-                //note.popup.HorizontalOffset = offset + 1;
-                //note.popup.HorizontalOffset = offset;
-            //}
+
+            if (remind != null)
+            {
+                var offset = remind.remindPopup.HorizontalOffset;
+                remind.remindPopup.HorizontalOffset = offset + 1;
+                remind.remindPopup.HorizontalOffset = offset;
+            }
         }
 
         //////////////---> BUTTONS <---///////////////////////////
@@ -125,8 +125,10 @@ namespace Notes
             {
                 NoteStatus = "New note added";
                 StatusAnimation();
-                Remind remind = new Remind();
+                remind = new Remind();
+                //remind.remindPopup.IsOpen = true;
                 remind.SetReminder(strDate, strTime, mainGrid, NewNoteTitle, NewNoteTxt);
+                centerGrid.Children.Add(remind);
             }
             else
             {
@@ -341,9 +343,14 @@ namespace Notes
             {
                 Note note = Notes.Values.FirstOrDefault(x => x.popup.IsOpen == true);
                 note.popup.IsOpen = false;
+
+                remind.remindPopup.IsOpen = false; 
             }
         }
 
-        
+        private void titleField_TextChanged()
+        {
+
+        }
     }
 }
