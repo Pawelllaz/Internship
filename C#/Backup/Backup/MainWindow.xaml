@@ -13,6 +13,11 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        
+        WindowStyle="SingleBorderWindow"
+        AllowsTransparency="False"
+        ResizeMode="CanResize"
+        
         WindowStartupLocation="CenterScreen"
         StateChanged="myWindow_StateChanged"
         x:Name="myWindow"
@@ -28,12 +33,14 @@
             <DoubleAnimation Storyboard.TargetName="NewBackupBorder"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.4"
+                             From="0"
                              To="1"/>
         </Storyboard>
         <Storyboard x:Key="NewBackupReverseAnimation">
             <DoubleAnimation Storyboard.TargetName="NewBackupBorder"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.4"
+                             Duration="{Binding Delay}"
+                             From="1"
                              To="0"/>
         </Storyboard>
         <Storyboard x:Key="BackupNameWarningAnimation">
@@ -60,13 +67,23 @@
             <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-            <ColumnDefinition Width="2*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
 
-        <TextBlock
+    <Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Background="Gray" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+        </Grid>-->
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="200"/>
+                <ColumnDefinition Width="2*" MinWidth="200"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontFamily="Comic Sans MS, Verdana"
@@ -77,14 +94,14 @@
             Foreground="#003776"
             Text="Kopia zapasowa"
             />
-        <Image
+            <Image
             Width="150"
             Height="150"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Source="backup1.png"
             Margin="0,0,0,20"/>
-        <TextBlock
+            <TextBlock
             Text="Status..."
             Grid.Column="0"
             VerticalAlignment="Bottom"
@@ -95,29 +112,205 @@
             FontStyle="Italic"
             Foreground="#003776"/>
 
-        <Grid
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            x:Name="popupGrid">
-            <Popup
-                x:Name="newBackupPopup"
-                AllowsTransparency="True"
-                Width="{Binding ElementName=popupGrid, Path=ActualWidth}"
-                IsOpen="True"
-                Placement="Center" Grid.ColumnSpan="2"
-                Height="{Binding ElementName=popupGrid, Path=ActualHeight}">
+            
+            <Grid
+            Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                Style="{StaticResource myFont}"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                Height="25"
+                Margin="10"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Text="Nazwa kopii zapasowej"
+                />
+                <!--<TextBlock
+                Style="{StaticResource myFont}"
+                Grid.Column="1"
+                Grid.Row="0"
+                Height="25"
+                Margin="10"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Text="ścieżka do folderu docelowego"
+                />-->
+                <TextBox
+                x:Name="BackupNameTextBox"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                Width="300"
+                Height="30"
+                Margin="10"
+                Text="{Binding BackupName}"
+                
+                VerticalAlignment="Bottom"/>
+                <Border
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Width="300"
+                Height="30"
+                Margin="114,0,114,17">
+                    <TextBlock
+                    x:Name="BackupNameWarning"
+                    Style="{StaticResource myFont}"
+                    Foreground="DarkRed"
+                    Text="Wprowadź nazwę kopii zapasowej"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Opacity="0" />
+                </Border>
+                <!--<TextBox
+                Grid.Column="1"
+                Grid.Row="0"
+                Width="200"
+                Height="30"
+                Margin="10"
+                VerticalAlignment="Bottom"/>-->
+                <Button
+                Width="300"
+                Height="40"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                Margin="10"
+                Click="NewBackup_Click"
+                Content="Zrób nową kopię"/>
+
+                <!--<Grid
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                Grid.RowSpan="3">
+                
+            </Grid>-->
+                <TextBlock
+                Style="{StaticResource myFont}"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="10"
+                Text="Wcześniejsze kopie (kliknij, aby wykonać ponownie)"/>
+                <Button
+                Width="200"
+                Height="40"
+                Grid.Row="3"
+                Grid.Column="0"
+                Content="pusty slot"/>
+                <Button
+                Width="200"
+                Height="40"
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="pusty slot"/>
+                <Button
+                Width="200"
+                Height="40"
+                Grid.Row="3"
+                Grid.Column="1"
+                Content="pusty slot"/>
+                <Button
+                Width="200"
+                Height="40"
+                Grid.Row="4"
+                Grid.Column="1"
+                Content="pusty slot"/>
+                <Grid
+                Grid.Row="5"
+                Grid.Column="0"
+                x:Name="grid1"
+                Margin="10">
+                    <Button
+                   Width="{Binding ElementName=grid1, Path=ActualWidth}"
+                   Height="40"
+                   Content="Wyświetl wszystkie kopie"/>
+                </Grid>
+                <Grid
+                Grid.Row="5"
+                Grid.Column="1"
+                Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid
+                    Grid.Column="0"
+                    x:Name="grid2"
+                    Margin="10">
+                        <Button
+                        Width="{Binding ElementName=grid2, Path=ActualWidth}"
+                        Height="40"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        Content="Wyświetl logi"
+                        FontSize="14"
+                        Padding="0"/>
+                    </Grid>
+                    <Grid
+                    Grid.Column="1"
+                    x:Name="grid3"
+                    Margin="10">
+                        <Button
+                        Width="{Binding ElementName=grid3, Path=ActualWidth}"
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        Content="Skasuj logi"
+                        Padding="0"
+                        
+                        Background="DarkRed"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
+            
+        </Grid>
+        <materialDesign:DialogHost 
+                x:Name="test_host" 
+                IsOpen="False" 
+                Visibility="Visible" 
+                Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+            <materialDesign:DialogHost.DialogContent>
+                <!--<Grid
+                    x:Name="popupGrid"
+                    Background="Aquamarine"
+                    Width="600"
+                    Height="300">-->
+                    <!--<Popup
+                        x:Name="newBackupPopup"
+                        AllowsTransparency="True"
+                        Width="{Binding ElementName=popupGrid, Path=ActualWidth}"
+                        IsOpen="True"
+                        Placement="Center" 
+                        Grid.ColumnSpan="2"
+                        Height="{Binding ElementName=popupGrid, Path=ActualHeight}">-->
                 <Border
                     x:Name="NewBackupBorder"
                     Width="500"
                     Background="#F0FAFF"
                     Height="200"
-                    Opacity="0"
+                    Opacity="1"
                     CornerRadius="10"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="25" ShadowDepth="15"/>
-                    </Border.Effect>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -146,6 +339,7 @@
                             HorizontalAlignment="Center"/>
                         <TextBox
                             x:Name="BackupSourceTextBox"
+                            PreviewMouseDown="BackupSourceTextBox_PreviewMouseDown"
                             Grid.Column="0"
                             Grid.Row="1"
                             Width="200"
@@ -154,6 +348,7 @@
                             VerticalAlignment="Top"/>
                         <TextBox
                             x:Name="BackupDestinationTextBox"
+                            PreviewMouseDown="BackupDestinationTextBox_PreviewMouseDown"
                             Grid.Column="1"
                             Grid.Row="1"
                             Width="200"
@@ -180,7 +375,12 @@
                             HorizontalAlignment="Right"
                             Click="CloseButton_Click"
                             Content="anuluj"
-                            Background="DarkRed"/>
+                            Background="DarkRed"
+                            Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib"/>
+                            </Button.CommandParameter>
+                        </Button>
                         <TextBlock
                             Style="{StaticResource myFont}"
                             Grid.Column="0"
@@ -192,174 +392,26 @@
                             TextWrapping="Wrap"/>
                     </Grid>
                 </Border>
-            </Popup>
-        </Grid>
-        <Grid
-            Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Style="{StaticResource myFont}"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="0"
-                Height="25"
-                Margin="10"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Text="Nazwa kopii zapasowej"
-                />
-            <!--<TextBlock
-                Style="{StaticResource myFont}"
-                Grid.Column="1"
-                Grid.Row="0"
-                Height="25"
-                Margin="10"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Text="ścieżka do folderu docelowego"
-                />-->
-            <TextBox
-                x:Name="BackupNameTextBox"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="0"
-                Width="300"
-                Height="30"
-                Margin="10"
-                Text="{Binding BackupName}"
+                    
                 
-                VerticalAlignment="Bottom"/>
-            <Border
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="1"
-                Grid.RowSpan="2"
-                Width="300"
-                Height="30"
-                Margin="114,0,114,17">
-                <TextBlock
-                    x:Name="BackupNameWarning"
-                    Style="{StaticResource myFont}"
-                    Foreground="DarkRed"
-                    Text="Wprowadź nazwę kopii zapasowej"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Opacity="0" />
-            </Border>
-            <!--<TextBox
-                Grid.Column="1"
-                Grid.Row="0"
-                Width="200"
-                Height="30"
-                Margin="10"
-                VerticalAlignment="Bottom"/>-->
-            <Button
-                Width="300"
-                Height="40"
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                VerticalAlignment="Top"
-                Margin="10"
-                Click="NewBackup_Click"
-                Content="Zrób nową kopię"/>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+        <!--<Button Width="200" VerticalAlignment="Top" Click="Button_Click"> test</Button>
+        <materialDesign:DialogHost x:Name="test_host" IsOpen="True" Visibility="Visible" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Height="200" Width="400">
+                    <Button Width="100" 
+                            Command="materialDesign:DialogHost.CloseDialogCommand">
+                        <Button.CommandParameter>
+                            <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                False
+                            </system:Boolean>
+                        </Button.CommandParameter>
+                        exit
+                    </Button>
+                </Grid>
 
-            <!--<Grid
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="2"
-                Grid.RowSpan="3">
-                
-            </Grid>-->
-            <TextBlock
-                Style="{StaticResource myFont}"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="2"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                Margin="10"
-                Text="Wcześniejsze kopie (kliknij, aby wykonać ponownie)"/>
-            <Button
-                Width="200"
-                Height="40"
-                Grid.Row="3"
-                Grid.Column="0"
-                Content="pusty slot"/>
-            <Button
-                Width="200"
-                Height="40"
-                Grid.Row="4"
-                Grid.Column="0"
-                Content="pusty slot"/>
-            <Button
-                Width="200"
-                Height="40"
-                Grid.Row="3"
-                Grid.Column="1"
-                Content="pusty slot"/>
-            <Button
-                Width="200"
-                Height="40"
-                Grid.Row="4"
-                Grid.Column="1"
-                Content="pusty slot"/>
-            <Grid
-                Grid.Row="5"
-                Grid.Column="0"
-                x:Name="grid1"
-                Margin="10">
-                <Button
-                   Width="{Binding ElementName=grid1, Path=ActualWidth}"
-                   Height="40"
-                   Content="Wyświetl wszystkie kopie"/>
-            </Grid>
-            <Grid
-                Grid.Row="5"
-                Grid.Column="1"
-                Margin="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid
-                    Grid.Column="0"
-                    x:Name="grid2"
-                    Margin="10">
-                    <Button
-                        Width="{Binding ElementName=grid2, Path=ActualWidth}"
-                        Height="40"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center"
-                        Content="Wyświetl logi"
-                        FontSize="14"
-                        Padding="0"/>
-                </Grid>
-                <Grid
-                    Grid.Column="1"
-                    x:Name="grid3"
-                    Margin="10">
-                    <Button
-                        Width="{Binding ElementName=grid3, Path=ActualWidth}"
-                        Height="40"
-                        HorizontalAlignment="Center"
-                        Content="Skasuj logi"
-                        Padding="0"
-                        
-                        Background="DarkRed"/>
-                </Grid>
-            </Grid>
-        </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>-->
     </Grid>
 </Window>

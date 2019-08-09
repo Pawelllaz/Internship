@@ -22,3 +22,4 @@ C:\Users\Praktyka\Desktop\Internship\C#\Backup\Backup\obj\Debug\Backup.pdb
 C:\Users\Praktyka\Desktop\Internship\C#\Backup\Backup\obj\Debug\Backup.csprojAssemblyReference.cache
 C:\Users\Praktyka\Desktop\Internship\C#\Backup\Backup\obj\Debug\Window1.g.cs
 C:\Users\Praktyka\Desktop\Internship\C#\Backup\Backup\obj\Debug\Window1.baml
+C:\Users\Praktyka\Desktop\Internship\C#\Backup\Backup\bin\Debug\ShowMeTheXAML.dll
