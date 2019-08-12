@@ -25,7 +25,10 @@ namespace Backup
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private List<string> listOfBackupNames = new List<string>();
+        private List<string> listOfBackupNames;
+        private List<string> listOfBackupSourcePaths;
+        private List<string> listOfBackupDestPaths;
+        private string directoryPath = @"kopia.txt";
         private string _delay;
         public string Delay
         {
@@ -78,11 +81,71 @@ namespace Backup
                 OnPropertyChanged(nameof(BackupName));
             }
         }
+        private string _fastButton0;
+        public string FastButton0
+        {
+            get
+            {
+                return _fastButton0;
+            }
+            set
+            {
+                _fastButton0 = value;
+                OnPropertyChanged(nameof(FastButton0));
+            }
+        }
+        private string _fastButton1;
+        public string FastButton1
+        {
+            get
+            {
+                return _fastButton1;
+            }
+            set
+            {
+                _fastButton1 = value;
+                OnPropertyChanged(nameof(FastButton1));
+            }
+        }
+        private string _fastButton2;
+        public string FastButton2
+        {
+            get
+            {
+                return _fastButton2;
+            }
+            set
+            {
+                _fastButton2 = value;
+                OnPropertyChanged(nameof(FastButton2));
+            }
+        }
+        private string _fastButton3;
+        public string FastButton3
+        {
+            get
+            {
+                return _fastButton3;
+            }
+            set
+            {
+                _fastButton3 = value;
+                OnPropertyChanged(nameof(FastButton3));
+            }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+
+            SetButtonsEmpty();
+            FIleOperations fIleOperations = new FIleOperations(directoryPath);
+            listOfBackupNames = fIleOperations.ReadNames();
+            listOfBackupSourcePaths = fIleOperations.ReadSourcePath();
+            listOfBackupDestPaths = fIleOperations.ReadDestinationPath();
+            
+            SetSlots();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -96,49 +159,39 @@ namespace Backup
         private void NewBackup_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(BackupName))
-            {
                 BackupNameWarningAnimation();
-            }
             else
-            {
-                //newbackuppopupanimation("0:0:0.4");
-                //newbackuppopup.isopen = true;
-                test_host.IsOpen = true;
-            }
-            
+                newBackupHost.IsOpen = true;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            //NewBackupPopupReverseAnimation("0:0:0.4");
-            //newBackupPopup.IsOpen = false;
-            test_host.IsOpen = false;
+            newBackupHost.IsOpen = false;
+            BackupName = string.Empty;
+            NewBackupSourcePath = string.Empty;
+            NewBackupDestinationPath = string.Empty;
         }
 
         private void MakeNewBackup_Click(object sender, RoutedEventArgs e)
         {
             DirectoryCopy(NewBackupSourcePath, NewBackupDestinationPath);
-            test_host.IsOpen = false;
+            newBackupHost.IsOpen = false;
 
-            // it need to be repaired
-
-            string[] text = ReadFile(@"C:\kopia.txt");
+            FIleOperations fIleOperations = new FIleOperations(directoryPath);
+            if(listOfBackupNames == null)
+                fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+            else if (!listOfBackupNames.Contains(BackupName))
+                fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
             
-            if(!listOfBackupNames.Contains(BackupName))
-            {
-                listOfBackupNames.Add(BackupName);
-                if (!text.Contains(BackupName))
-                {
-                    string[] stringToWrite = null;
-                    stringToWrite[0] = String.Format(BackupName + ", " + NewBackupSourcePath + ", " + NewBackupDestinationPath);
-                    if (!File.Exists(@"C:\kopia.txt"))
-                    {
-                        File.WriteAllLines(@"C:\kopia.txt", stringToWrite);
-                    }
-                    else
-                        File.AppendAllLines(@"C:\kopia.txt", stringToWrite);
-                }
-            }
+            listOfBackupNames = fIleOperations.ReadNames();
+            listOfBackupSourcePaths = fIleOperations.ReadSourcePath();
+            listOfBackupDestPaths = fIleOperations.ReadDestinationPath();
+
+            BackupName = string.Empty;
+            NewBackupSourcePath = string.Empty;
+            NewBackupDestinationPath = string.Empty;
+
+            SetSlots();
         }
 
         private string[] ReadFile(string path)
@@ -215,9 +268,6 @@ namespace Backup
             {
                 try
                 {
-                    //string tempPath = Path.Combine(destDirPath, file.Name);
-                    //file.CopyTo(tempPath, false);
-
                     FileInfo destFile = new FileInfo(Path.Combine(destDirPath, file.Name));
                     if(destFile.Exists)
                     {
@@ -280,9 +330,62 @@ namespace Backup
             this.DragMove();
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    test_host.IsOpen = !test_host.IsOpen;
-        //}
+        private void SetSlots()
+        {
+            Console.WriteLine("ADASDA");
+            if (listOfBackupNames != null)
+            {
+                switch (listOfBackupNames.Count)
+                {
+                    case 1:
+                        FastButton0 = listOfBackupNames.ElementAt(0);
+                        break;
+                    case 2:
+                        FastButton0 = listOfBackupNames.ElementAt(0);
+                        FastButton1 = listOfBackupNames.ElementAt(1);
+                        break;
+                    case 3:
+                        FastButton0 = listOfBackupNames.ElementAt(0);
+                        FastButton1 = listOfBackupNames.ElementAt(1);
+                        FastButton2 = listOfBackupNames.ElementAt(2);
+                        break;
+                    case 4:
+                        FastButton0 = listOfBackupNames.ElementAt(0);
+                        FastButton1 = listOfBackupNames.ElementAt(1);
+                        FastButton2 = listOfBackupNames.ElementAt(2);
+                        FastButton3 = listOfBackupNames.ElementAt(3);
+                        break;
+                }
+            }
+        }
+
+        private void SetButtonsEmpty()
+        {
+            FastButton0 = "pusty slot";
+            FastButton1 = "pusty slot";
+            FastButton2 = "pusty slot";
+            FastButton3 = "pusty slot";
+        }
+
+        private void FastButton0_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton0);
+            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+        }
+        private void FastButton1_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton1);
+            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+        }
+        private void FastButton2_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton2);
+            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+        }
+        private void FastButton3_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton3);
+            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+        }
     }
 }

@@ -1,0 +1,2 @@
+as, C:\test, C:\Nowy folder
+asd, C:\test, C:\Nowy folder
