@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Backup
 {
@@ -25,6 +26,8 @@ namespace Backup
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private long maxLength;
+        private long currentLength;
         private List<string> listOfBackupNames;
         private List<string> listOfBackupSourcePaths;
         private List<string> listOfBackupDestPaths;
@@ -174,7 +177,11 @@ namespace Backup
 
         private void MakeNewBackup_Click(object sender, RoutedEventArgs e)
         {
-            DirectoryCopy(NewBackupSourcePath, NewBackupDestinationPath);
+            Thread thread = new Thread(() => Worker(NewBackupSourcePath, NewBackupDestinationPath));
+            thread.Start();
+            CopyingProgressBar.Visibility = Visibility.Visible;
+            ProgressAnimation();
+
             newBackupHost.IsOpen = false;
 
             FIleOperations fIleOperations = new FIleOperations(directoryPath);
@@ -240,6 +247,18 @@ namespace Backup
             resource?.Begin();
         }
 
+        private void ProgressAnimation()
+        {
+            var resource = myWindow.Resources["ProgressAnimation"] as Storyboard;
+            resource?.Begin();
+        }
+
+        private void ProgressAnimationReverse()
+        {
+            var resource = myWindow.Resources["ProgressAnimationReverse"] as Storyboard;
+            resource?.Begin();
+        }
+
         /// <summary>
         /// /////////////////////////////////////////////////////////
         /// </summary>
@@ -253,7 +272,45 @@ namespace Backup
             }
         }
 
-        private static void DirectoryCopy(string sourcerDirPath, string destDirPath)
+        private void Worker(string SourcePath, string DestPath)
+        {
+           // Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+            //{
+                GetReadyCalculating(SourcePath);
+                DirectoryCopy(SourcePath, DestPath);
+            //});
+        }
+        private void GetReadyCalculating(string directoryPath)
+        {
+            maxLength = 0;
+            currentLength = 0;
+            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+            maxLength = CalculateDirectorySize(directoryInfo, true);
+        }
+
+        private static long CalculateDirectorySize(DirectoryInfo directory, bool includeSubdirectories)
+        {
+            long totalSize = 0;
+
+            FileInfo[] files = directory.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                totalSize += file.Length;
+            }
+
+            if (includeSubdirectories)
+            {
+                DirectoryInfo[] dirs = directory.GetDirectories();
+                foreach (DirectoryInfo dir in dirs)
+                {
+                    totalSize += CalculateDirectorySize(dir, true);
+                }
+            }
+
+            return totalSize;
+        }
+
+        private void DirectoryCopy(string sourcerDirPath, string destDirPath)
         {
             DirectoryInfo dir = new DirectoryInfo(sourcerDirPath);
             if (!dir.Exists)
@@ -273,14 +330,22 @@ namespace Backup
                     {
                         if (file.LastWriteTime > destFile.LastWriteTime)
                         {
-                            file.CopyTo(destFile.FullName, true);
-                            Console.WriteLine("Overwriting...");
+                            FileInfo f = file.CopyTo(destFile.FullName, true);
+                            currentLength += f.Length;
                         }
                     }
                     else
                     {
-                        file.CopyTo(destFile.FullName, true);
-                        Console.WriteLine("copying...");
+                        FileInfo f = file.CopyTo(destFile.FullName, true);
+                        currentLength += f.Length;
+                        //Console.WriteLine(currentLength*100/maxLength+"%");
+                        Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+                        {
+                            double progress = (currentLength * 100) / maxLength;
+                            CopyingProgressBar.Value = progress;
+                            CopyPercent.Text = progress.ToString()+"%";
+                            CopyingStatusText.Text = f.Name;
+                        });
                     }
                 }
                 catch (Exception e)
@@ -335,29 +400,31 @@ namespace Backup
             Console.WriteLine("ADASDA");
             if (listOfBackupNames != null)
             {
-                switch (listOfBackupNames.Count)
+                if (listOfBackupNames.Count == 1)
                 {
-                    case 1:
-                        FastButton0 = listOfBackupNames.ElementAt(0);
-                        break;
-                    case 2:
-                        FastButton0 = listOfBackupNames.ElementAt(0);
-                        FastButton1 = listOfBackupNames.ElementAt(1);
-                        break;
-                    case 3:
-                        FastButton0 = listOfBackupNames.ElementAt(0);
-                        FastButton1 = listOfBackupNames.ElementAt(1);
-                        FastButton2 = listOfBackupNames.ElementAt(2);
-                        break;
-                    case 4:
-                        FastButton0 = listOfBackupNames.ElementAt(0);
-                        FastButton1 = listOfBackupNames.ElementAt(1);
-                        FastButton2 = listOfBackupNames.ElementAt(2);
-                        FastButton3 = listOfBackupNames.ElementAt(3);
-                        break;
+                    FastButton0 = listOfBackupNames.ElementAt(0);
+                }
+                else if (listOfBackupNames.Count == 2)
+                {
+                    FastButton0 = listOfBackupNames.ElementAt(0);
+                    FastButton1 = listOfBackupNames.ElementAt(1);
+                }
+                else if (listOfBackupNames.Count == 3)
+                {
+                    FastButton0 = listOfBackupNames.ElementAt(0);
+                    FastButton1 = listOfBackupNames.ElementAt(1);
+                    FastButton2 = listOfBackupNames.ElementAt(2);
+                }
+                else if (listOfBackupNames.Count > 3)
+                {
+                    FastButton0 = listOfBackupNames.ElementAt(0);
+                    FastButton1 = listOfBackupNames.ElementAt(1);
+                    FastButton2 = listOfBackupNames.ElementAt(2);
+                    FastButton3 = listOfBackupNames.ElementAt(3);
                 }
             }
         }
+         
 
         private void SetButtonsEmpty()
         {
@@ -370,22 +437,46 @@ namespace Backup
         private void FastButton0_Click(object sender, RoutedEventArgs e)
         {
             int index = listOfBackupNames.IndexOf(FastButton0);
-            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
         }
         private void FastButton1_Click(object sender, RoutedEventArgs e)
         {
             int index = listOfBackupNames.IndexOf(FastButton1);
-            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
         }
         private void FastButton2_Click(object sender, RoutedEventArgs e)
         {
             int index = listOfBackupNames.IndexOf(FastButton2);
-            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
         }
         private void FastButton3_Click(object sender, RoutedEventArgs e)
         {
             int index = listOfBackupNames.IndexOf(FastButton3);
-            DirectoryCopy(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index));
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
         }
     }
 }

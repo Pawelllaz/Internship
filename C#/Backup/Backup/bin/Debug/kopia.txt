@@ -1,2 +1,1 @@
-as, C:\test, C:\Nowy folder
-asd, C:\test, C:\Nowy folder
+nowa kopia, C:\test, C:\Nowy folder

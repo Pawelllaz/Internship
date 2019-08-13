@@ -14,7 +14,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="ThreeDBorderWindow"
         AllowsTransparency="False"
         ResizeMode="CanResize"
         
@@ -59,6 +59,41 @@
                             To="Red"
                             AutoReverse="True"/>-->
         </Storyboard>
+        <Storyboard x:Key="ProgressAnimation">
+            <DoubleAnimation Storyboard.TargetName="Copying"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingStatusText"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="CopyPercent"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="0"
+                             To="1"/>
+        </Storyboard>
+
+        <Storyboard x:Key="ProgressAnimationReverse">
+            <DoubleAnimation Storyboard.TargetName="Copying"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="1"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingStatusText"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="1"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyPercent"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="1"
+                             To="0"/>
+        </Storyboard>
 
         <Style x:Key="myFont" TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
@@ -70,11 +105,32 @@
 
     <Grid>
         <!--<Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <Grid Background="Gray" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+
+        <Grid 
+            Background="Gray" 
+            MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <StackPanel
+                Height="22"
+                Width="150"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Margin="0,0,5,0"
+                Orientation="Horizontal">
+                <Button 
+                    Width="45"
+                    Margin="0,0,5,0"/>
+                <Button 
+                    Width="45"
+                    Margin="0,0,5,0"/>
+                <Button 
+                    Width="45"
+                    Margin="0,0,5,0"
+                    Background="DarkRed"/>
+
+            </StackPanel>
         </Grid>-->
 
         <Grid>
@@ -89,7 +145,7 @@
             FontFamily="Comic Sans MS, Verdana"
             FontSize="25"
             FontWeight="Black"
-            Margin="0,0,0,220"
+            Margin="0,0,0,300"
             FontStyle="Italic"
             Foreground="#003776"
             Text="Kopia zapasowa"
@@ -100,17 +156,61 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Source="backup1.png"
-            Margin="0,0,0,20"/>
-            <TextBlock
-            Text="Status..."
-            Grid.Column="0"
-            VerticalAlignment="Bottom"
-            HorizontalAlignment="Center"
-            Margin="0,0,0,70"
-            FontFamily="Comic Sans MS, Verdana"
-            FontSize="20"
-            FontStyle="Italic"
-            Foreground="#003776"/>
+            Margin="0,0,0,110"/>
+            <Grid
+                x:Name="progresGrid"
+                Background="Transparent"
+                Grid.Column="0"
+                Margin="20,0,20,0">
+                <TextBlock
+                    x:Name="Copying"
+                    Text="kopiowanie plików..."
+                    Height="30"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,310,0,0"
+                    TextWrapping="Wrap"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="16"
+                    FontStyle="Italic"
+                    Foreground="#003776"
+                    Opacity="0"/>
+                <TextBlock
+                    x:Name="CopyingStatusText"
+                    Text="plik"
+                    Height="50"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,170,0,0"
+                    TextWrapping="Wrap"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="17"
+                    FontStyle="Italic"
+                    Foreground="#003776"
+                    Opacity="0"/>
+                <ProgressBar
+                    x:Name="CopyingProgressBar"
+                    Width="{Binding ElementName=progresGrid, Path=ActualWidth}"
+                    Height="30"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,250,0,0"
+                    Visibility="Hidden"/>
+                <TextBlock
+                    x:Name="CopyPercent"
+                    Text="percent"
+                    Height="25"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,250,0,0"
+                    TextWrapping="Wrap"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="17"
+                    FontStyle="Italic"
+                    Foreground="#FFFFFF"
+                    Opacity="0"/>
+            </Grid>
+            
 
             
             <Grid
