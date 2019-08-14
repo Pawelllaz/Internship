@@ -31,7 +31,8 @@ namespace Backup
         private List<string> listOfBackupNames;
         private List<string> listOfBackupSourcePaths;
         private List<string> listOfBackupDestPaths;
-        private string directoryPath = @"kopia.txt";
+        private List<string> listOfDates;
+        private string ProgramDataPath = @"kopia.txt";
         private string _delay;
         public string Delay
         {
@@ -143,12 +144,14 @@ namespace Backup
             DataContext = this;
 
             SetButtonsEmpty();
-            FIleOperations fIleOperations = new FIleOperations(directoryPath);
+            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
             listOfBackupNames = fIleOperations.ReadNames();
             listOfBackupSourcePaths = fIleOperations.ReadSourcePath();
             listOfBackupDestPaths = fIleOperations.ReadDestinationPath();
+            listOfDates = fIleOperations.ReadDate();
             
             SetSlots();
+            RefreshMyBackups();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -177,14 +180,14 @@ namespace Backup
 
         private void MakeNewBackup_Click(object sender, RoutedEventArgs e)
         {
-            Thread thread = new Thread(() => Worker(NewBackupSourcePath, NewBackupDestinationPath));
+            Thread thread = new Thread(() => CopyWorker(NewBackupSourcePath, NewBackupDestinationPath));
             thread.Start();
             CopyingProgressBar.Visibility = Visibility.Visible;
             ProgressAnimation();
 
             newBackupHost.IsOpen = false;
 
-            FIleOperations fIleOperations = new FIleOperations(directoryPath);
+            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
             if(listOfBackupNames == null)
                 fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
             else if (!listOfBackupNames.Contains(BackupName))
@@ -201,6 +204,61 @@ namespace Backup
             SetSlots();
         }
 
+        private void FastButton0_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton0);
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
+        }
+        private void FastButton1_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton1);
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
+        }
+        private void FastButton2_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton2);
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
+        }
+        private void FastButton3_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listOfBackupNames.IndexOf(FastButton3);
+            if (index != -1)
+            {
+                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                thread.Start();
+                CopyingProgressBar.Visibility = Visibility.Visible;
+                ProgressAnimation();
+            }
+        }
+
+        private void AllBackupButton_Click(object sender, RoutedEventArgs e)
+        {
+            AllBackupsHost.IsOpen = true;
+        }
+
+        /// <summary>
+        /// ////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private string[] ReadFile(string path)
         {
             string[] text = null;
@@ -272,19 +330,40 @@ namespace Backup
             }
         }
 
-        private void Worker(string SourcePath, string DestPath)
+        private void MyDelay(int delayValue)
         {
-           // Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
-            //{
-                GetReadyCalculating(SourcePath);
-                DirectoryCopy(SourcePath, DestPath);
+            Thread.Sleep(delayValue);
+
+            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+            {
+                CopyingProgressBar.Visibility = Visibility.Hidden;
+                ProgressAnimationReverse();
+            });
+        }
+
+        private void CopyWorker(string SourcePath, string DestPath)
+        {
+            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+            {
+                RefreshMyBackups();
+                Copying.Text = "Kopiowanie plików";
+            });
+            GetReadyCalculating(SourcePath);
+            DirectoryCopy(SourcePath, DestPath);
+            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+            {
+                CopyingStatusText.Text = "";
+                Copying.Text = "Kopiowanie zakończone";
+            });
+            Thread thread = new Thread(() => MyDelay(5000));
+            thread.Start();
             //});
         }
-        private void GetReadyCalculating(string directoryPath)
+        private void GetReadyCalculating(string ProgramDataPath)
         {
             maxLength = 0;
             currentLength = 0;
-            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+            DirectoryInfo directoryInfo = new DirectoryInfo(ProgramDataPath);
             maxLength = CalculateDirectorySize(directoryInfo, true);
         }
 
@@ -330,21 +409,31 @@ namespace Backup
                     {
                         if (file.LastWriteTime > destFile.LastWriteTime)
                         {
-                            FileInfo f = file.CopyTo(destFile.FullName, true);
-                            currentLength += f.Length;
+                            file.CopyTo(destFile.FullName, true);
+                            currentLength += file.Length;
                         }
+                        else
+                            currentLength += file.Length;
+                            
+                        Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+                        {
+                            double progress = (currentLength * 100) / maxLength;
+                            CopyingProgressBar.Value = progress;
+                            CopyPercent.Text = progress.ToString() + "%";
+                            CopyingStatusText.Text = file.Name;
+                        });
                     }
                     else
                     {
-                        FileInfo f = file.CopyTo(destFile.FullName, true);
-                        currentLength += f.Length;
+                        file.CopyTo(destFile.FullName, true);
+                        currentLength += file.Length;
                         //Console.WriteLine(currentLength*100/maxLength+"%");
                         Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
                         {
                             double progress = (currentLength * 100) / maxLength;
                             CopyingProgressBar.Value = progress;
                             CopyPercent.Text = progress.ToString()+"%";
-                            CopyingStatusText.Text = f.Name;
+                            CopyingStatusText.Text = file.Name;
                         });
                     }
                 }
@@ -434,49 +523,62 @@ namespace Backup
             FastButton3 = "pusty slot";
         }
 
-        private void FastButton0_Click(object sender, RoutedEventArgs e)
+        //private void fun()
+        //{
+        //    for(int i = 0; i < listOfBackupNames.Count; i++)
+        //    {
+        //        TextBlock textBlock0 = new TextBlock();
+        //        textBlock0.Text = listOfBackupNames.ElementAt(i);
+        //        TextBlock textBlock1 = new TextBlock();
+        //        textBlock1.Text = listOfBackupSourcePaths.ElementAt(i);
+        //        TextBlock textBlock2 = new TextBlock();
+        //        textBlock2.Text = listOfBackupDestPaths.ElementAt(i);
+
+        //        StackPanel BackupElement = new StackPanel();
+        //        BackupElement.Orientation = System.Windows.Controls.Orientation.Horizontal;
+        //        BackupElement.Children.Add(textBlock0);
+        //        BackupElement.Children.Add(textBlock1);
+        //        BackupElement.Children.Add(textBlock2);
+
+        //        AllBackupsStackPanel.Children.Add(BackupElement);
+        //    }
+        //}
+
+        private void RefreshMyBackups()
         {
-            int index = listOfBackupNames.IndexOf(FastButton0);
-            if (index != -1)
+            if (listOfBackupNames != null)
             {
-                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
+                for (int i = 0; i < listOfBackupNames.Count - 1; i++)
+                {
+                    string text = String.Format(listOfBackupNames.ElementAt(i) + ", " + listOfBackupSourcePaths.ElementAt(i) + ", " + listOfDates.ElementAt(i));
+                    BackupBorder backupBorder = new BackupBorder();
+                    backupBorder.SetText(text);
+                    AllBackupsStackPanel.Children.Add(backupBorder.GetBorder());
+                }
             }
         }
-        private void FastButton1_Click(object sender, RoutedEventArgs e)
+
+        private void CloseListButton_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton1);
-            if (index != -1)
-            {
-                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
-            }
+            AllBackupsHost.IsOpen = false;
         }
-        private void FastButton2_Click(object sender, RoutedEventArgs e)
+
+        private void DeleteDataButton_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton2);
-            if (index != -1)
-            {
-                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
-            }
+            DeleteDataHost.IsOpen = true;
         }
-        private void FastButton3_Click(object sender, RoutedEventArgs e)
+
+        private void ContinueDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton3);
-            if (index != -1)
-            {
-                Thread thread = new Thread(() => Worker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
-            }
+            DeleteDataHost.IsOpen = false;
+            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
+            fIleOperations.DeleteData();
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void CancelDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteDataHost.IsOpen = false;
         }
     }
 }

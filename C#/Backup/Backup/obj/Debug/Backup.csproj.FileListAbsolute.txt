@@ -32,7 +32,6 @@ C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\bin\Debug\ShowM
 C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\bin\Debug\MaterialDesignColors.pdb
 C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\bin\Debug\MaterialDesignThemes.Wpf.pdb
 C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\bin\Debug\MaterialDesignThemes.Wpf.xml
-C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\obj\Debug\Backup.csprojAssemblyReference.cache
 C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\obj\Debug\MainWindow.g.cs
 C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\obj\Debug\Window1.g.cs
 C:\Users\Praktyka\Desktop\Internship\Internship\C#\Backup\Backup\obj\Debug\App.g.cs

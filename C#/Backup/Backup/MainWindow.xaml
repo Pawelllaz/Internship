@@ -53,26 +53,30 @@
                              Duration="0:0:0.5"
                              BeginTime="0:0:5"
                              To="0"/>
-            <!--<ColorAnimation Storyboard.TargetName="BackupNameTextBox"
-                            Storyboard.TargetProperty="Background"
-                            BeginTime="0:0:0.5"
-                            To="Red"
-                            AutoReverse="True"/>-->
+            <ColorAnimation Storyboard.TargetName="BackupNameTextBox"
+                            Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)"
+                            Duration="0:0:0.4"
+                            To="Red"/>
+            <ColorAnimation Storyboard.TargetName="BackupNameTextBox"
+                            Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)"
+                            Duration="0:0:0.4"
+                            BeginTime="0:0:0.8"
+                            To="#F8FAF6"/>
         </Storyboard>
         <Storyboard x:Key="ProgressAnimation">
             <DoubleAnimation Storyboard.TargetName="Copying"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.2"
+                             Duration="0:0:0.3"
                              From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyingStatusText"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.2"
+                             Duration="0:0:0.3"
                              From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyPercent"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.2"
+                             Duration="0:0:0.3"
                              From="0"
                              To="1"/>
         </Storyboard>
@@ -80,17 +84,17 @@
         <Storyboard x:Key="ProgressAnimationReverse">
             <DoubleAnimation Storyboard.TargetName="Copying"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.2"
+                             Duration="0:0:0.3"
                              From="1"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="CopyingStatusText"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.2"
+                             Duration="0:0:0.3"
                              From="1"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="CopyPercent"
                              Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.2"
+                             Duration="0:0:0.3"
                              From="1"
                              To="0"/>
         </Storyboard>
@@ -103,7 +107,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <!--<Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
@@ -164,7 +168,7 @@
                 Margin="20,0,20,0">
                 <TextBlock
                     x:Name="Copying"
-                    Text="kopiowanie plików..."
+                    Text=""
                     Height="30"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -177,7 +181,7 @@
                     Opacity="0"/>
                 <TextBlock
                     x:Name="CopyingStatusText"
-                    Text="plik"
+                    Text=""
                     Height="50"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -198,7 +202,7 @@
                     Visibility="Hidden"/>
                 <TextBlock
                     x:Name="CopyPercent"
-                    Text="percent"
+                    Text=""
                     Height="25"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -239,16 +243,18 @@
                 Text="Nazwa kopii zapasowej"
                 />
                 <TextBox
-                x:Name="BackupNameTextBox"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="0"
-                Width="300"
-                Height="30"
-                Margin="10"
-                Text="{Binding BackupName}"
-                
-                VerticalAlignment="Bottom"/>
+                    x:Name="BackupNameTextBox"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="0"
+                    Width="300"
+                    Height="30"
+                    Margin="10"
+                    Text="{Binding BackupName}"
+                    VerticalAlignment="Bottom"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="15"
+                    Foreground="#003776"/>
                 <Border
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
@@ -265,6 +271,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     Opacity="0" />
+                    
                 </Border>
                 <Button
                 Width="300"
@@ -320,44 +327,24 @@
                 x:Name="grid1"
                 Margin="10">
                     <Button
-                   Width="{Binding ElementName=grid1, Path=ActualWidth}"
-                   Height="40"
-                   Content="Wyświetl wszystkie kopie"/>
+                       Width="{Binding ElementName=grid1, Path=ActualWidth}"
+                       Height="40"
+                       Content="Wyświetl wszystkie kopie"
+                       Click="AllBackupButton_Click"/>
                 </Grid>
                 <Grid
                 Grid.Row="5"
                 Grid.Column="1"
                 Margin="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid
-                    Grid.Column="0"
-                    x:Name="grid2"
-                    Margin="10">
-                        <Button
-                        Width="{Binding ElementName=grid2, Path=ActualWidth}"
-                        Height="40"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center"
-                        Content="Wyświetl logi"
-                        FontSize="14"
-                        Padding="0"/>
-                    </Grid>
-                    <Grid
-                    Grid.Column="1"
-                    x:Name="grid3"
-                    Margin="10">
-                        <Button
-                        Width="{Binding ElementName=grid3, Path=ActualWidth}"
+                    <Button
+                        Width="150"
                         Height="40"
                         HorizontalAlignment="Center"
-                        Content="Skasuj logi"
+                        Content="Skasuj dane aplikacji"
                         Padding="0"
-                        
-                        Background="DarkRed"/>
-                    </Grid>
+                        BorderBrush="DarkRed"
+                        Background="DarkRed"
+                        Click="DeleteDataButton_Click"/>
                 </Grid>
             </Grid>
             
@@ -443,6 +430,7 @@
                             Click="CloseButton_Click"
                             Content="anuluj"
                             Background="DarkRed"
+                            BorderBrush="DarkRed"
                             Command="materialDesign:DialogHost.CloseDialogCommand">
                             <Button.CommandParameter>
                                 <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib"/>
@@ -461,6 +449,104 @@
                 </Border>
 
 
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+        <materialDesign:DialogHost 
+                x:Name="AllBackupsHost" 
+                IsOpen="False" 
+                Visibility="Visible" 
+                Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+            <materialDesign:DialogHost.DialogContent>
+                <Border
+                    x:Name="AllBackupsBorder"
+                    Width="{Binding ElementName=MainGrid, Path=ActualWidth}"
+                    Height="{Binding ElementName=MainGrid, Path=ActualHeight}"
+                    Background="#F0FAFF"
+                    Opacity="1"
+                    CornerRadius="10"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                    <Grid>
+                        <Button
+                            Margin="40"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Height="25"
+                            Width="45"
+                            Background="DarkRed"
+                            BorderBrush="DarkRed"
+                            Content="X"
+                            Padding="0"
+                            FontSize="16"
+                            FontWeight="Heavy"
+                            Click="CloseListButton_Click"/>
+                        <TextBlock
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Margin="50,45,50,50"
+                            Style="{StaticResource myFont}"
+                            Text="Lista twoich kopii zaposowych (od lewej: nazwa, źródło i data)"/>
+                        <ScrollViewer
+                        Margin="50,80,50,50">
+                            <StackPanel
+                            x:Name="AllBackupsStackPanel"
+                            Orientation="Vertical"
+                            Margin="0,0,10,0">
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+        <materialDesign:DialogHost 
+                x:Name="DeleteDataHost" 
+                IsOpen="False" 
+                Visibility="Visible" 
+                Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+            <materialDesign:DialogHost.DialogContent>
+                <Border
+                    x:Name="DeleteDataBorder"
+                    Width="400"
+                    Height="200"
+                    Background="#F0FAFF"
+                    Opacity="1"
+                    CornerRadius="10"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                    <Grid>
+                        <TextBlock
+                            Text="Spowoduje to skasowanie tylko danych aplikacji (kopie zapasowe zostaną nie naruszone)"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource myFont}"
+                            TextWrapping="Wrap"
+                            Margin="15,25,15,0"/>
+                        <Button
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Height="50"
+                            Width="150"
+                            Margin="35,70,0,0"
+                            Content="Skasuj"
+                            Padding="0"
+                            FontSize="20"
+                            Click="ContinueDeleteButton_Click"/>
+                        <Button
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Height="50"
+                            Width="150"
+                            Margin="0,70,35,0"
+                            Content="Anuluj"
+                            Padding="0"
+                            FontSize="20"
+                            Background="DarkRed"
+                            BorderBrush="DarkRed"
+                            Click="CancelDeleteButton_Click"/>
+                    </Grid>
+                </Border>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
     </Grid>
