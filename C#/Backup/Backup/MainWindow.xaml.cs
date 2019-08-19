@@ -206,46 +206,62 @@ namespace Backup
 
         private void FastButton0_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton0);
-            if (index != -1)
+            int index;
+            if (listOfBackupNames != null)
             {
-                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
+                index = listOfBackupNames.IndexOf(FastButton0);
+                if (index != -1)
+                {
+                    Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                    thread.Start();
+                    CopyingProgressBar.Visibility = Visibility.Visible;
+                    ProgressAnimation();
+                }
             }
         }
         private void FastButton1_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton1);
-            if (index != -1)
+            int index;
+            if (listOfBackupNames != null)
             {
-                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
+                index = listOfBackupNames.IndexOf(FastButton1);
+                if (index != -1)
+                {
+                    Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                    thread.Start();
+                    CopyingProgressBar.Visibility = Visibility.Visible;
+                    ProgressAnimation();
+                }
             }
         }
         private void FastButton2_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton2);
-            if (index != -1)
+            int index;
+            if (listOfBackupNames != null)
             {
-                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
+                index = listOfBackupNames.IndexOf(FastButton2);
+                if (index != -1)
+                {
+                    Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                    thread.Start();
+                    CopyingProgressBar.Visibility = Visibility.Visible;
+                    ProgressAnimation();
+                }
             }
         }
         private void FastButton3_Click(object sender, RoutedEventArgs e)
         {
-            int index = listOfBackupNames.IndexOf(FastButton3);
-            if (index != -1)
+            int index;
+            if (listOfBackupNames != null)
             {
-                Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
+                index = listOfBackupNames.IndexOf(FastButton3);
+                if (index != -1)
+                {
+                    Thread thread = new Thread(() => CopyWorker(listOfBackupSourcePaths.ElementAt(index), listOfBackupDestPaths.ElementAt(index)));
+                    thread.Start();
+                    CopyingProgressBar.Visibility = Visibility.Visible;
+                    ProgressAnimation();
+                }
             }
         }
 
@@ -346,14 +362,17 @@ namespace Backup
             Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
             {
                 RefreshMyBackups();
-                Copying.Text = "Kopiowanie plików";
+                CopyingStatus.Text = String.Format("Kopiowanie plików\nz: " + Path.GetFileName(SourcePath) + "\ndo: " + Path.GetFileName(DestPath));
+                CopyingFileStaticText.Text = "Plik:";
             });
             GetReadyCalculating(SourcePath);
             DirectoryCopy(SourcePath, DestPath);
             Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
             {
-                CopyingStatusText.Text = "";
-                Copying.Text = "Kopiowanie zakończone";
+                CopyingFile.Text = "";
+                CopyingFileStaticText.Text = "";
+                CopyingStatus.Text = String.Format("Kopiowanie zakończone\nz: " + Path.GetFileName(SourcePath) + "\ndo: " + Path.GetFileName(DestPath));
+                CopyingCapacity.Text = "";
             });
             Thread thread = new Thread(() => MyDelay(5000));
             thread.Start();
@@ -420,7 +439,7 @@ namespace Backup
                             double progress = (currentLength * 100) / maxLength;
                             CopyingProgressBar.Value = progress;
                             CopyPercent.Text = progress.ToString() + "%";
-                            CopyingStatusText.Text = file.Name;
+                            CopyingFile.Text = file.Name;
                         });
                     }
                     else
@@ -433,7 +452,9 @@ namespace Backup
                             double progress = (currentLength * 100) / maxLength;
                             CopyingProgressBar.Value = progress;
                             CopyPercent.Text = progress.ToString()+"%";
-                            CopyingStatusText.Text = file.Name;
+                            CopyingFile.Text = file.Name;
+                            long toEnd = maxLength - currentLength;
+                            CopyingCapacity.Text = String.Format("Pozostało:\n{0:0} MB", toEnd / Math.Pow(2, 20));
                         });
                     }
                 }

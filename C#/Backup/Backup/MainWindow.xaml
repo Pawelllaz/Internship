@@ -29,7 +29,7 @@
         MinWidth="700"
         MaxWidth="1000">
     <Window.Resources>
-        <Storyboard x:Key="NewBackupAnimation">
+        <!--<Storyboard x:Key="NewBackupAnimation">
             <DoubleAnimation Storyboard.TargetName="NewBackupBorder"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.4"
@@ -42,7 +42,7 @@
                              Duration="{Binding Delay}"
                              From="1"
                              To="0"/>
-        </Storyboard>
+        </Storyboard>-->
         <Storyboard x:Key="BackupNameWarningAnimation">
             <DoubleAnimation Storyboard.TargetName="BackupNameWarning"
                              Storyboard.TargetProperty="Opacity"
@@ -64,30 +64,56 @@
                             To="#F8FAF6"/>
         </Storyboard>
         <Storyboard x:Key="ProgressAnimation">
-            <DoubleAnimation Storyboard.TargetName="Copying"
+            <DoubleAnimation Storyboard.TargetName="Title"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="1"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="Img"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             From="1"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingStatus"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
+                             BeginTime="0:0:0.2"
                              From="0"
                              To="1"/>
-            <DoubleAnimation Storyboard.TargetName="CopyingStatusText"
+            <DoubleAnimation Storyboard.TargetName="CopyingFile"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
+                             BeginTime="0:0:0.2"
                              From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyPercent"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
+                             BeginTime="0:0:0.2"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingFileStaticText"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             BeginTime="0:0:0.2"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingCapacity"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             BeginTime="0:0:0.2"
                              From="0"
                              To="1"/>
         </Storyboard>
 
         <Storyboard x:Key="ProgressAnimationReverse">
-            <DoubleAnimation Storyboard.TargetName="Copying"
+            
+            <DoubleAnimation Storyboard.TargetName="CopyingStatus"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              From="1"
                              To="0"/>
-            <DoubleAnimation Storyboard.TargetName="CopyingStatusText"
+            <DoubleAnimation Storyboard.TargetName="CopyingFile"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              From="1"
@@ -97,6 +123,28 @@
                              Duration="0:0:0.3"
                              From="1"
                              To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingFileStaticText"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             From="1"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingCapacity"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             From="1"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="Title"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             BeginTime="0:0:0.2"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="Img"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.2"
+                             BeginTime="0:0:0.2"
+                             From="0"
+                             To="1"/>
         </Storyboard>
 
         <Style x:Key="myFont" TargetType="TextBlock">
@@ -144,51 +192,43 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontFamily="Comic Sans MS, Verdana"
-            FontSize="25"
-            FontWeight="Black"
-            Margin="0,0,0,300"
-            FontStyle="Italic"
-            Foreground="#003776"
-            Text="Kopia zapasowa"
-            />
+                x:Name="Title"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontFamily="Comic Sans MS, Verdana"
+                FontSize="25"
+                FontWeight="Black"
+                Margin="0,0,0,250"
+                FontStyle="Italic"
+                Foreground="#003776"
+                Text="Kopia zapasowa"
+                Opacity="1"/>
             <Image
-            Width="150"
-            Height="150"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Source="backup1.png"
-            Margin="0,0,0,110"/>
+                x:Name="Img"
+                Width="200"
+                Height="200"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Source="backup1.png"
+                Margin="0,0,0,0"
+                Opacity="1"/>
             <Grid
                 x:Name="progresGrid"
                 Background="Transparent"
                 Grid.Column="0"
                 Margin="20,0,20,0">
                 <TextBlock
-                    x:Name="Copying"
-                    Text=""
-                    Height="30"
+                    x:Name="CopyingStatus"
+                    Text="kopiowanie plikow
+                    z C:/test/test
+                    do C:/kopia/kopia"
+                    Height="75"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="0,310,0,0"
+                    HorizontalAlignment="Left"
+                    Margin="0,0,0,270"
                     TextWrapping="Wrap"
                     FontFamily="Comic Sans MS, Verdana"
                     FontSize="16"
-                    FontStyle="Italic"
-                    Foreground="#003776"
-                    Opacity="0"/>
-                <TextBlock
-                    x:Name="CopyingStatusText"
-                    Text=""
-                    Height="50"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="0,170,0,0"
-                    TextWrapping="Wrap"
-                    FontFamily="Comic Sans MS, Verdana"
-                    FontSize="17"
                     FontStyle="Italic"
                     Foreground="#003776"
                     Opacity="0"/>
@@ -198,20 +238,60 @@
                     Height="30"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Margin="0,250,0,0"
+                    Margin="0,0,0,150"
                     Visibility="Hidden"/>
                 <TextBlock
                     x:Name="CopyPercent"
-                    Text=""
+                    Text="50%"
                     Height="25"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Margin="0,250,0,0"
+                    Margin="0,0,0,150"
                     TextWrapping="Wrap"
                     FontFamily="Comic Sans MS, Verdana"
                     FontSize="17"
                     FontStyle="Italic"
                     Foreground="#FFFFFF"
+                    Opacity="0"/>
+                <TextBlock
+                    x:Name="CopyingFileStaticText"
+                    Text="Plik:"
+                    Height="75"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,30"
+                    TextWrapping="Wrap"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="16"
+                    FontStyle="Italic"
+                    Foreground="#003776"
+                    Opacity="0"/>
+                <TextBlock
+                    x:Name="CopyingFile"
+                    Text="DCIM95012995105195.jpg"
+                    Height="75"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="50,0,0,30"
+                    TextWrapping="Wrap"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="16"
+                    FontStyle="Italic"
+                    Foreground="#003776"
+                    Opacity="0"/>
+                <TextBlock
+                    x:Name="CopyingCapacity"
+                    Text="pozostało: 
+                    12345 MB"
+                    Height="50"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="0,70,0,0"
+                    TextWrapping="Wrap"
+                    FontFamily="Comic Sans MS, Verdana"
+                    FontSize="17"
+                    FontStyle="Italic"
+                    Foreground="#003776"
                     Opacity="0"/>
             </Grid>
             
