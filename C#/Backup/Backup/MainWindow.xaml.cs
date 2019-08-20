@@ -28,6 +28,7 @@ namespace Backup
     {
         private long maxLength;
         private long currentLength;
+        private int listIterator;
         private List<string> listOfBackupNames;
         private List<string> listOfBackupSourcePaths;
         private List<string> listOfBackupDestPaths;
@@ -149,7 +150,8 @@ namespace Backup
             listOfBackupSourcePaths = fIleOperations.ReadSourcePath();
             listOfBackupDestPaths = fIleOperations.ReadDestinationPath();
             listOfDates = fIleOperations.ReadDate();
-            
+            listIterator = 0;
+
             SetSlots();
             RefreshMyBackups();
         }
@@ -188,14 +190,17 @@ namespace Backup
             newBackupHost.IsOpen = false;
 
             FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
-            if(listOfBackupNames == null)
-                fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
-            else if (!listOfBackupNames.Contains(BackupName))
-                fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+            //if(listOfBackupNames == null)
+            //    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+            //else if (!listOfBackupNames.Contains(BackupName))
+            //    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+
+            fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
             
             listOfBackupNames = fIleOperations.ReadNames();
             listOfBackupSourcePaths = fIleOperations.ReadSourcePath();
             listOfBackupDestPaths = fIleOperations.ReadDestinationPath();
+            listOfDates = fIleOperations.ReadDate();
 
             BackupName = string.Empty;
             NewBackupSourcePath = string.Empty;
@@ -216,6 +221,8 @@ namespace Backup
                     thread.Start();
                     CopyingProgressBar.Visibility = Visibility.Visible;
                     ProgressAnimation();
+                    //dopisz save
+
                 }
             }
         }
@@ -507,31 +514,51 @@ namespace Backup
 
         private void SetSlots()
         {
-            Console.WriteLine("ADASDA");
             if (listOfBackupNames != null)
             {
-                if (listOfBackupNames.Count == 1)
+                int setSlotIterator = 0;
+                for (int i = listOfBackupNames.Count - 1; i >= 0; i--)
                 {
-                    FastButton0 = listOfBackupNames.ElementAt(0);
+                    if (setSlotIterator == 4)
+                        break;
+                    switch (setSlotIterator++)
+                    {
+                        case 0:
+                            FastButton0 = listOfBackupNames.ElementAt(i);
+                            break;
+                        case 1:
+                            FastButton1 = listOfBackupNames.ElementAt(i);
+                            break;
+                        case 2:
+                            FastButton2 = listOfBackupNames.ElementAt(i);
+                            break;
+                        case 3:
+                            FastButton3 = listOfBackupNames.ElementAt(i);
+                            break;
+                    }
                 }
-                else if (listOfBackupNames.Count == 2)
-                {
-                    FastButton0 = listOfBackupNames.ElementAt(0);
-                    FastButton1 = listOfBackupNames.ElementAt(1);
-                }
-                else if (listOfBackupNames.Count == 3)
-                {
-                    FastButton0 = listOfBackupNames.ElementAt(0);
-                    FastButton1 = listOfBackupNames.ElementAt(1);
-                    FastButton2 = listOfBackupNames.ElementAt(2);
-                }
-                else if (listOfBackupNames.Count > 3)
-                {
-                    FastButton0 = listOfBackupNames.ElementAt(0);
-                    FastButton1 = listOfBackupNames.ElementAt(1);
-                    FastButton2 = listOfBackupNames.ElementAt(2);
-                    FastButton3 = listOfBackupNames.ElementAt(3);
-                }
+                //if (listOfBackupNames.Count == 1)
+                //{
+                //    FastButton0 = listOfBackupNames.ElementAt(0);
+                //}
+                //else if (listOfBackupNames.Count == 2)
+                //{
+                //    FastButton0 = listOfBackupNames.ElementAt(0);
+                //    FastButton1 = listOfBackupNames.ElementAt(1);
+                //}
+                //else if (listOfBackupNames.Count == 3)
+                //{
+                //    FastButton0 = listOfBackupNames.ElementAt(0);
+                //    FastButton1 = listOfBackupNames.ElementAt(1);
+                //    FastButton2 = listOfBackupNames.ElementAt(2);
+                //}
+                //else if (listOfBackupNames.Count > 3)
+                //{
+                //    FastButton0 = listOfBackupNames.ElementAt(0);
+                //    FastButton1 = listOfBackupNames.ElementAt(1);
+                //    FastButton2 = listOfBackupNames.ElementAt(2);
+                //    FastButton3 = listOfBackupNames.ElementAt(3);
+                //}
             }
         }
          
@@ -544,34 +571,15 @@ namespace Backup
             FastButton3 = "pusty slot";
         }
 
-        //private void fun()
-        //{
-        //    for(int i = 0; i < listOfBackupNames.Count; i++)
-        //    {
-        //        TextBlock textBlock0 = new TextBlock();
-        //        textBlock0.Text = listOfBackupNames.ElementAt(i);
-        //        TextBlock textBlock1 = new TextBlock();
-        //        textBlock1.Text = listOfBackupSourcePaths.ElementAt(i);
-        //        TextBlock textBlock2 = new TextBlock();
-        //        textBlock2.Text = listOfBackupDestPaths.ElementAt(i);
-
-        //        StackPanel BackupElement = new StackPanel();
-        //        BackupElement.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //        BackupElement.Children.Add(textBlock0);
-        //        BackupElement.Children.Add(textBlock1);
-        //        BackupElement.Children.Add(textBlock2);
-
-        //        AllBackupsStackPanel.Children.Add(BackupElement);
-        //    }
-        //}
-
         private void RefreshMyBackups()
         {
+
+            // needto be repair
             if (listOfBackupNames != null)
             {
-                for (int i = 0; i < listOfBackupNames.Count - 1; i++)
+                for (; listIterator < listOfBackupNames.Count; listIterator++)
                 {
-                    string text = String.Format(listOfBackupNames.ElementAt(i) + ", " + listOfBackupSourcePaths.ElementAt(i) + ", " + listOfDates.ElementAt(i));
+                    string text = String.Format(listOfBackupNames.ElementAt(listIterator) + ", " + listOfBackupSourcePaths.ElementAt(listIterator) + ", " + listOfDates.ElementAt(listIterator));
                     BackupBorder backupBorder = new BackupBorder();
                     backupBorder.SetText(text);
                     AllBackupsStackPanel.Children.Add(backupBorder.GetBorder());

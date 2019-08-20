@@ -1,1 +1,2 @@
-asd, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 19-8-2019 11:32
+csz, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 20-8-2019 10:45
+gf, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 20-8-2019 10:48
