@@ -63,6 +63,7 @@
                             BeginTime="0:0:0.8"
                             To="#F8FAF6"/>
         </Storyboard>
+        
         <Storyboard x:Key="ProgressAnimation">
             <DoubleAnimation Storyboard.TargetName="Title"
                              Storyboard.TargetProperty="Opacity"
@@ -147,6 +148,36 @@
                              To="1"/>
         </Storyboard>
 
+        <Storyboard x:Key="AmountCopyingWarningAnimation">
+            <DoubleAnimation Storyboard.TargetName="Warning"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.5"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="Warning"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.5"
+                             BeginTime="0:0:2"
+                             From="1"
+                             To="0"/>
+
+        </Storyboard>
+
+
+        <Storyboard x:Key="NewBackupCopyingWarningAnimation">
+            <DoubleAnimation Storyboard.TargetName="NewBackupCopyingWarning"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.5"
+                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="NewBackupCopyingWarning"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.5"
+                             BeginTime="0:0:2"
+                             From="1"
+                             To="0"/>
+
+        </Storyboard>
         <Style x:Key="myFont" TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="#003776"/>
@@ -292,6 +323,18 @@
                     FontSize="17"
                     FontStyle="Italic"
                     Foreground="#003776"
+                    Opacity="0"/>
+                <TextBlock
+                    Style="{StaticResource myFont}"
+                    x:Name="Warning"
+                    Text="Zaczekaj na zakończenie kopiowania!"
+                    Height="50"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,250,0,0"
+                    TextWrapping="Wrap"
+                    FontSize="17"
+                    Foreground="DarkRed"
                     Opacity="0"/>
             </Grid>
             
@@ -516,6 +559,17 @@
                                 <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib"/>
                             </Button.CommandParameter>
                         </Button>
+                        <TextBlock
+                            x:Name="NewBackupCopyingWarning"
+                            Style="{StaticResource myFont}"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="2"
+                            Margin="75,45,40,0"
+                            FontSize="16"
+                            Foreground="DarkRed"
+                            Text="Zaczekaj, trwa kopiowanie!"
+                            Opacity="0"/>
                         <TextBlock
                             Style="{StaticResource myFont}"
                             Grid.Column="0"

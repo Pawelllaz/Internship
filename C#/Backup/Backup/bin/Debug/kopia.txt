@@ -1,2 +1,11 @@
-csz, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 20-8-2019 10:45
-gf, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 20-8-2019 10:48
+zdjecia, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:04
+zdjecia, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:04
+asdadasda, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:32
+hahahahah, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:32
+abecadlo, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:33
+nowa, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:33
+nowa, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:34
+nowa, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:43
+asd, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:44
+asd, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:44
+asd, C:\Users\Admin\Desktop\test, C:\Users\Admin\Desktop\kopia, 08.21.2019 12:44

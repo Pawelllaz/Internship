@@ -25,9 +25,13 @@ namespace Backup
 
         public void SetText(string text)
         {
+            //Grid grid = new Grid();
+            //border.Child = grid;
+
             TextBlock textBlock = new TextBlock();
             textBlock.FontFamily = new FontFamily("Comic Sans MS, Verdana");
             textBlock.FontStyle = FontStyles.Italic;
+            //textBlock.Margin = new Thickness(0, 0, 80, 0);
             textBlock.FontSize = 18;
             textBlock.Text = text;
             textBlock.Foreground = (Brush)new BrushConverter().ConvertFrom("#003776");
@@ -35,6 +39,17 @@ namespace Backup
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
 
             border.Child = textBlock;
+            //grid.Children.Add(textBlock);
+
+            //Button button = new Button();
+            //button.Width = 70;
+            //button.Height = 35;
+            //button.Padding = new Thickness(0);
+            //button.VerticalAlignment = VerticalAlignment.Center;
+            //button.HorizontalAlignment = HorizontalAlignment.Right;
+            //button.Content = "Wykonaj";
+
+            //grid.Children.Add(button);
         }
 
         public Border GetBorder()

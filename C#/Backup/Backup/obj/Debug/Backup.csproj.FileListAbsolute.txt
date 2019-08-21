@@ -56,7 +56,6 @@ C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\bin\Debug\ShowMeTheXAML.dll
 C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\bin\Debug\MaterialDesignColors.pdb
 C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\bin\Debug\MaterialDesignThemes.Wpf.pdb
 C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\bin\Debug\MaterialDesignThemes.Wpf.xml
-C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\obj\Debug\Backup.csprojAssemblyReference.cache
 C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\obj\Debug\MainWindow.g.cs
 C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\obj\Debug\Window1.g.cs
 C:\Users\Admin\Desktop\Internship\C#\Backup\Backup\obj\Debug\App.g.cs

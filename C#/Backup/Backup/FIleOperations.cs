@@ -18,7 +18,7 @@ namespace Backup
 
         public List<string> ReadNames()
         {
-            List<string> list = null;
+            List<string> list = new List<string>();
                 
             if (File.Exists(ProgramDataPath))
             {
@@ -36,7 +36,7 @@ namespace Backup
 
         public List<string> ReadSourcePath()
         {
-            List<string> list = null;
+            List<string> list = new List<string>();
 
             if (File.Exists(ProgramDataPath))
             {
@@ -54,7 +54,7 @@ namespace Backup
 
         public List<string> ReadDestinationPath()
         {
-            List<string> list = null;
+            List<string> list = new List<string>();
 
             if (File.Exists(ProgramDataPath))
             {
@@ -72,7 +72,7 @@ namespace Backup
 
         public List<string> ReadDate()
         {
-            List<string> list = null;
+            List<string> list = new List<string>();
 
             if (File.Exists(ProgramDataPath))
             {
@@ -90,8 +90,7 @@ namespace Backup
 
         public bool SaveRecord(string name, string sourcePath, string destinationPath)
         {
-            string date = String.Format(DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year + " " + DateTime.Now.Hour + ":" + DateTime.Now.Minute);
-            string temp = String.Format(name + ", " + sourcePath + ", " + destinationPath + ", " + date);
+            string temp = String.Format(name + ", " + sourcePath + ", " + destinationPath + ", " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"));
             try
             {
                 if (File.Exists(ProgramDataPath))
