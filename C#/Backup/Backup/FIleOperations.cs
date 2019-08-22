@@ -90,11 +90,11 @@ namespace Backup
 
         public bool SaveRecord(string name, string sourcePath, string destinationPath)
         {
-            string temp = String.Format(name + ", " + sourcePath + ", " + destinationPath + ", " + DateTime.Now.ToString("MM/dd/yyyy HH:mm"));
+            string temp = String.Format(name + ", " + sourcePath + ", " + destinationPath + ", " + DateTime.Now.ToString("MM/dd/yyyy HH:mm") + Environment.NewLine);
             try
             {
                 if (File.Exists(ProgramDataPath))
-                    File.AppendAllText(ProgramDataPath, string.Format("{1}{0}", temp, Environment.NewLine));
+                    File.AppendAllText(ProgramDataPath,temp);
                 else
                     File.WriteAllText(ProgramDataPath, temp);
             }
@@ -109,7 +109,8 @@ namespace Backup
 
         public void DeleteData()
         {
-            File.Delete(ProgramDataPath);
+            if(File.Exists(ProgramDataPath))
+                File.WriteAllText(ProgramDataPath,"");
         }
     }
 }

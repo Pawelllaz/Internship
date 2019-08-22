@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2046
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backup", "Backup\Backup.csproj", "{A25F7FA3-BEC8-4ADE-AC14-F66C34545E43}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Backup_Installer", "Backup_Installer\Backup_Installer.vdproj", "{64A4D52C-F2D5-4DCF-BF59-CA6B6CAB145E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{A25F7FA3-BEC8-4ADE-AC14-F66C34545E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25F7FA3-BEC8-4ADE-AC14-F66C34545E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25F7FA3-BEC8-4ADE-AC14-F66C34545E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A4D52C-F2D5-4DCF-BF59-CA6B6CAB145E}.Debug|Any CPU.ActiveCfg = Debug
+		{64A4D52C-F2D5-4DCF-BF59-CA6B6CAB145E}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

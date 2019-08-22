@@ -25,9 +25,11 @@ namespace Backup
 
         public void SetText(string text)
         {
+            // do something with that texts
+
             //Grid grid = new Grid();
             //border.Child = grid;
-
+            
             TextBlock textBlock = new TextBlock();
             textBlock.FontFamily = new FontFamily("Comic Sans MS, Verdana");
             textBlock.FontStyle = FontStyles.Italic;

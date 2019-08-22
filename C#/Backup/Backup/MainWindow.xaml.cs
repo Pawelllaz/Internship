@@ -34,11 +34,12 @@ namespace Backup
         private long currentLength;
         private int listIterator;
         private bool workingFlag;
+        private bool delayOn;
         private List<string> listOfBackupNames;
         private List<string> listOfBackupSourcePaths;
         private List<string> listOfBackupDestPaths;
         private List<string> listOfDates;
-        private string ProgramDataPath = @"kopia.txt";
+        private string ProgramDataPath = String.Format(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Microsoft\\Windows\\Start Menu\\Programs\\Dane kopia zapasowa\\Program data.txt");
         private string _delay;
         public string Delay
         {
@@ -150,6 +151,8 @@ namespace Backup
             DataContext = this;
             workingFlag = false;
 
+            
+            delayOn = false;
             SetButtonsEmpty();
             FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
             listOfBackupNames = fIleOperations.ReadNames();
@@ -190,34 +193,43 @@ namespace Backup
         {
             if (!workingFlag)
             {
-                workingFlag = true;
+                if (Directory.Exists(NewBackupSourcePath) && Directory.Exists(NewBackupDestinationPath))
+                {
+                    workingFlag = true;
 
-                Thread thread = new Thread(() => CopyWorker(NewBackupSourcePath, NewBackupDestinationPath));
-                thread.Start();
-                CopyingProgressBar.Visibility = Visibility.Visible;
-                ProgressAnimation();
+                    Thread thread = new Thread(() => CopyWorker(NewBackupSourcePath, NewBackupDestinationPath));
+                    thread.Start();
+                    CopyingProgressBar.Visibility = Visibility.Visible;
+                    ProgressAnimation();
 
-                newBackupHost.IsOpen = false;
+                    newBackupHost.IsOpen = false;
 
-                FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
-                //if(listOfBackupNames == null)
-                //    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
-                //else if (!listOfBackupNames.Contains(BackupName))
-                //    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+                    FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
+                    //if(listOfBackupNames == null)
+                    //    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+                    //else if (!listOfBackupNames.Contains(BackupName))
+                    //    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
 
-                fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+                    fIleOperations.SaveRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
 
-                AddListsRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
+                    AddListsRecord(BackupName, NewBackupSourcePath, NewBackupDestinationPath);
 
-                BackupName = string.Empty;
-                NewBackupSourcePath = string.Empty;
-                NewBackupDestinationPath = string.Empty;
+                    BackupName = string.Empty;
+                    NewBackupSourcePath = string.Empty;
+                    NewBackupDestinationPath = string.Empty;
 
-                SetSlots();
+                    SetSlots();
+                }
+                else
+                {
+                    NewBackupCopyingWarning.Text = "Wprowadź ścieżkę źródłową i docelową";
+                    NewBackupCopyingWarningAnimation();
+                }
             }
             else
             {
                 NewBackupCopyingWarningAnimation();
+                NewBackupCopyingWarning.Text = "Zaczekaj, trwa kopiowanie!";
             }
         }
 
@@ -236,23 +248,33 @@ namespace Backup
                         string sourcePath = listOfBackupSourcePaths.ElementAt(index);
                         string destPath = listOfBackupDestPaths.ElementAt(index);
 
-                        Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
-                        thread.Start();
-                        CopyingProgressBar.Visibility = Visibility.Visible;
-                        ProgressAnimation();
+                        if (Directory.Exists(sourcePath) && Directory.Exists(destPath))
+                        {
+                            Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
+                            thread.Start();
+                            CopyingProgressBar.Visibility = Visibility.Visible;
+                            ProgressAnimation();
 
-                        FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
-                        fIleOperations.SaveRecord(backupName, sourcePath, destPath);
-                        AddListsRecord(backupName, sourcePath, destPath);
-                        RefreshMyBackups();
+                            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
+                            fIleOperations.SaveRecord(backupName, sourcePath, destPath);
+                            AddListsRecord(backupName, sourcePath, destPath);
+                            RefreshMyBackups();
+                        }
+                        else
+                            workingFlag = false;
                     }
+                    else
+                        workingFlag = false;
                 }
+                else
+                    workingFlag = false;
             }
             else
                 AmountCopyingWarningAnimation();
         }
         private void FastButton1_Click(object sender, RoutedEventArgs e)
         {
+            //that doesnt look good....
             if (!workingFlag)
             {
                 workingFlag = true;
@@ -267,17 +289,26 @@ namespace Backup
                         string sourcePath = listOfBackupSourcePaths.ElementAt(index);
                         string destPath = listOfBackupDestPaths.ElementAt(index);
 
-                        Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
-                        thread.Start();
-                        CopyingProgressBar.Visibility = Visibility.Visible;
-                        ProgressAnimation();
+                        if (Directory.Exists(sourcePath) && Directory.Exists(destPath))
+                        {
+                            Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
+                            thread.Start();
+                            CopyingProgressBar.Visibility = Visibility.Visible;
+                            ProgressAnimation();
 
-                        FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
-                        fIleOperations.SaveRecord(backupName, sourcePath, destPath);
-                        AddListsRecord(backupName, sourcePath, destPath);
-                        RefreshMyBackups();
+                            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
+                            fIleOperations.SaveRecord(backupName, sourcePath, destPath);
+                            AddListsRecord(backupName, sourcePath, destPath);
+                            RefreshMyBackups();
+                        }
+                        else
+                            workingFlag = false;
                     }
+                    else
+                        workingFlag = false;
                 }
+                else
+                    workingFlag = false;
             }
             else
                 AmountCopyingWarningAnimation();
@@ -297,18 +328,26 @@ namespace Backup
                         string backupName = listOfBackupNames.ElementAt(index);
                         string sourcePath = listOfBackupSourcePaths.ElementAt(index);
                         string destPath = listOfBackupDestPaths.ElementAt(index);
+                        if (Directory.Exists(sourcePath) && Directory.Exists(destPath))
+                        {
+                            Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
+                            thread.Start();
+                            CopyingProgressBar.Visibility = Visibility.Visible;
+                            ProgressAnimation();
 
-                        Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
-                        thread.Start();
-                        CopyingProgressBar.Visibility = Visibility.Visible;
-                        ProgressAnimation();
-
-                        FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
-                        fIleOperations.SaveRecord(backupName, sourcePath, destPath);
-                        AddListsRecord(backupName, sourcePath, destPath);
-                        RefreshMyBackups();
+                            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
+                            fIleOperations.SaveRecord(backupName, sourcePath, destPath);
+                            AddListsRecord(backupName, sourcePath, destPath);
+                            RefreshMyBackups();
+                        }
+                        else
+                            workingFlag = false;
                     }
+                    else
+                        workingFlag = false;
                 }
+                else
+                    workingFlag = false;
             }
             else
                 AmountCopyingWarningAnimation();
@@ -329,17 +368,26 @@ namespace Backup
                         string sourcePath = listOfBackupSourcePaths.ElementAt(index);
                         string destPath = listOfBackupDestPaths.ElementAt(index);
 
-                        Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
-                        thread.Start();
-                        CopyingProgressBar.Visibility = Visibility.Visible;
-                        ProgressAnimation();
+                        if (Directory.Exists(sourcePath) && Directory.Exists(destPath))
+                        {
+                            Thread thread = new Thread(() => CopyWorker(sourcePath, destPath));
+                            thread.Start();
+                            CopyingProgressBar.Visibility = Visibility.Visible;
+                            ProgressAnimation();
 
-                        FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
-                        fIleOperations.SaveRecord(backupName, sourcePath, destPath);
-                        AddListsRecord(backupName, sourcePath, destPath);
-                        RefreshMyBackups();
+                            FIleOperations fIleOperations = new FIleOperations(ProgramDataPath);
+                            fIleOperations.SaveRecord(backupName, sourcePath, destPath);
+                            AddListsRecord(backupName, sourcePath, destPath);
+                            RefreshMyBackups();
+                        }
+                        else
+                            workingFlag = false;
                     }
+                    else
+                        workingFlag = false;
                 }
+                else
+                    workingFlag = false;
             }
             else
                 AmountCopyingWarningAnimation();
@@ -444,7 +492,12 @@ namespace Backup
             var resource = myWindow.Resources["NewBackupCopyingWarningAnimation"] as Storyboard;
             resource?.Begin();
         }
-
+        
+        private void CopyingFinished()
+        {
+            var resource = myWindow.Resources["CopyingFinished"] as Storyboard;
+            resource?.Begin();
+        }
 
         private void myWindow_StateChanged(object sender, EventArgs e)
         {
@@ -456,36 +509,45 @@ namespace Backup
 
         private void MyDelay(int delayValue)
         {
+            delayOn = true;
             Thread.Sleep(delayValue);
 
-            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+            delayOn = false;
+            if (!delayOn && !workingFlag)
             {
-                CopyingProgressBar.Visibility = Visibility.Hidden;
-                ProgressAnimationReverse();
-            });
-            workingFlag = false;
+              Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+              {
+                  CopyingProgressBar.Visibility = Visibility.Hidden;
+                  ProgressAnimationReverse();
+              });
+            }
         }
 
         private void CopyWorker(string SourcePath, string DestPath)
         {
-            
-            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+            if (Directory.Exists(SourcePath) && Directory.Exists(DestPath))
             {
-                RefreshMyBackups();
-                CopyingStatus.Text = String.Format("Kopiowanie plików\nz: " + Path.GetFileName(SourcePath) + "\ndo: " + Path.GetFileName(DestPath));
-                CopyingFileStaticText.Text = "Plik:";
-            });
-            GetReadyCalculating(SourcePath);
-            DirectoryCopy(SourcePath, DestPath);
-            Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
-            {
-                CopyingFile.Text = "";
-                CopyingFileStaticText.Text = "";
+                Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+                {
+                    RefreshMyBackups();
+                    CopyingStatus.Text = String.Format("Kopiowanie plików\nz: " + Path.GetFileName(SourcePath) + "\ndo: " + Path.GetFileName(DestPath));
+                    CopyingFileStaticText.Text = "Plik:";
+                });
+                GetReadyCalculating(SourcePath);
+                DirectoryCopy(SourcePath, DestPath);
+                Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Render, (Action)delegate
+                {
+                //CopyingFile.Text = "";
+                //CopyingFileStaticText.Text = "";
                 CopyingStatus.Text = String.Format("Kopiowanie zakończone\nz: " + Path.GetFileName(SourcePath) + "\ndo: " + Path.GetFileName(DestPath));
-                CopyingCapacity.Text = "";
+                    CopyingFinished();
+                //LoadingImg.Opacity = 0;
+                //CopyingCapacity.Text = "";
             });
-            Thread thread = new Thread(() => MyDelay(5000));
-            thread.Start();
+                Thread thread = new Thread(() => MyDelay(5000));
+                thread.Start();
+            }
+            workingFlag = false;
         }
         private void GetReadyCalculating(string ProgramDataPath)
         {

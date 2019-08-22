@@ -68,84 +68,83 @@
             <DoubleAnimation Storyboard.TargetName="Title"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
-                             From="1"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="Img"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
-                             From="1"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="CopyingStatus"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              BeginTime="0:0:0.2"
-                             From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyingFile"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              BeginTime="0:0:0.2"
-                             From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyPercent"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              BeginTime="0:0:0.2"
-                             From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyingFileStaticText"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              BeginTime="0:0:0.2"
-                             From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="CopyingCapacity"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
                              BeginTime="0:0:0.2"
-                             From="0"
+                             To="1"/>
+            <DoubleAnimation Storyboard.TargetName="LoadingImg"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             BeginTime="0:0:0.2"
                              To="1"/>
         </Storyboard>
 
         <Storyboard x:Key="ProgressAnimationReverse">
-            
+
             <DoubleAnimation Storyboard.TargetName="CopyingStatus"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
-                             From="1"
-                             To="0"/>
-            <DoubleAnimation Storyboard.TargetName="CopyingFile"
-                             Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.3"
-                             From="1"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="CopyPercent"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.3"
-                             From="1"
-                             To="0"/>
-            <DoubleAnimation Storyboard.TargetName="CopyingFileStaticText"
-                             Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.3"
-                             From="1"
-                             To="0"/>
-            <DoubleAnimation Storyboard.TargetName="CopyingCapacity"
-                             Storyboard.TargetProperty="Opacity"
-                             Duration="0:0:0.3"
-                             From="1"
                              To="0"/>
             <DoubleAnimation Storyboard.TargetName="Title"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
                              BeginTime="0:0:0.2"
-                             From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="Img"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.2"
                              BeginTime="0:0:0.2"
-                             From="0"
                              To="1"/>
+        </Storyboard>
+
+        <Storyboard x:Key="CopyingFinished">
+            <DoubleAnimation Storyboard.TargetName="CopyingFile"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingFileStaticText"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="CopyingCapacity"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             To="0"/>
+            <DoubleAnimation Storyboard.TargetName="LoadingImg"
+                             Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:0.3"
+                             To="0"/>
+            
         </Storyboard>
 
         <Storyboard x:Key="AmountCopyingWarningAnimation">
@@ -168,13 +167,11 @@
             <DoubleAnimation Storyboard.TargetName="NewBackupCopyingWarning"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.5"
-                             From="0"
                              To="1"/>
             <DoubleAnimation Storyboard.TargetName="NewBackupCopyingWarning"
                              Storyboard.TargetProperty="Opacity"
                              Duration="0:0:0.5"
                              BeginTime="0:0:2"
-                             From="1"
                              To="0"/>
 
         </Storyboard>
@@ -324,6 +321,36 @@
                     FontStyle="Italic"
                     Foreground="#003776"
                     Opacity="0"/>
+                <Image
+                    x:Name="LoadingImg"
+                    Source="load2.gif"
+                    Height="70"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Margin="0,100,30,0"
+                    RenderTransformOrigin=".5,.5"
+                    Opacity="1">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform x:Name="LoadingImgAnim"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="Image.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard >
+                                    <DoubleAnimation  Storyboard.TargetName="LoadingImgAnim"
+                                                          Storyboard.TargetProperty="Angle"
+                                                          Duration="0:0:2"
+                                                          From="0"
+                                                          To="360"
+                                                          RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+
                 <TextBlock
                     Style="{StaticResource myFont}"
                     x:Name="Warning"
@@ -496,7 +523,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
                         <TextBlock
                             Style="{StaticResource myFont}"
@@ -537,7 +564,8 @@
                             Grid.ColumnSpan="2"
                             Grid.Row="2"
                             Width="280"
-                            Margin="30,10,0,0"
+                            Height="40"
+                            Margin="30,0,0,0"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
                             Click="MakeNewBackup_Click"    
@@ -547,7 +575,8 @@
                             Grid.ColumnSpan="2"
                             Grid.Row="2"
                             Width="140"
-                            Margin="0,10,30,0"
+                            Height="40"
+                            Margin="0,  0,30,0"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Click="CloseButton_Click"
@@ -565,20 +594,11 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Grid.Row="2"
-                            Margin="75,45,40,0"
+                            Margin="75,55,40,0"
                             FontSize="16"
                             Foreground="DarkRed"
-                            Text="Zaczekaj, trwa kopiowanie!"
+                            Text=""
                             Opacity="0"/>
-                        <TextBlock
-                            Style="{StaticResource myFont}"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Grid.Row="2"
-                            Margin="40,75,40,0"
-                            FontSize="13"
-                            Text="Przykładowa ścieżka do pliku:  C:\Program Files\Moje dokumenty"
-                            TextWrapping="Wrap"/>
                     </Grid>
                 </Border>
 
