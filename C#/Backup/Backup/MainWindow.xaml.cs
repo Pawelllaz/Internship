@@ -735,10 +735,7 @@ namespace Backup
             listOfBackupNames.Add(backupName);
             listOfBackupSourcePaths.Add(sourcePath);
             listOfBackupDestPaths.Add(destPath);
-            listOfDates.Add(DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
+            listOfDates.Add(DateTime.Now.ToString("MM/dd/yyyy HH:mm"));
         }
-
-
-        
     }
 }

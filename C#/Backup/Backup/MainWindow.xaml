@@ -323,13 +323,13 @@
                     Opacity="0"/>
                 <Image
                     x:Name="LoadingImg"
-                    Source="load2.gif"
+                    Source="load.png"
                     Height="70"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
                     Margin="0,100,30,0"
                     RenderTransformOrigin=".5,.5"
-                    Opacity="1">
+                    Opacity="0">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <RotateTransform x:Name="LoadingImgAnim"/>
@@ -340,11 +340,11 @@
                             <BeginStoryboard>
                                 <Storyboard >
                                     <DoubleAnimation  Storyboard.TargetName="LoadingImgAnim"
-                                                          Storyboard.TargetProperty="Angle"
-                                                          Duration="0:0:2"
-                                                          From="0"
-                                                          To="360"
-                                                          RepeatBehavior="Forever"/>
+                                                      Storyboard.TargetProperty="Angle"
+                                                      Duration="0:0:1.2"
+                                                      From="0"
+                                                      To="360"
+                                                      RepeatBehavior="Forever"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
